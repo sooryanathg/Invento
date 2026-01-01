@@ -7,6 +7,7 @@ import Navbar from "@/src/components/Navbar/navbar";
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import HeroSectionCard from "@/src/components/Cards/heroSectionCard";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -17,9 +18,10 @@ export default function HeroSection() {
   const textRef = useRef<HTMLDivElement>(null);
   const storyRef = useRef<HTMLDivElement>(null);
   const navbarRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !textRef.current || !storyRef.current || !navbarRef.current) return;
+    if (!sectionRef.current || !textRef.current || !storyRef.current || !navbarRef.current || !cardsRef.current) return;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -54,7 +56,18 @@ export default function HeroSection() {
             duration: 0.5,
             ease: "power2.out",
           },
-          0.8
+          0.9
+        )
+        .to(
+          cardsRef.current?.querySelectorAll(".card") || [],
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0,
+            duration: 0.6,
+            ease: "power2.out",
+          },
+          1
         );
     }, sectionRef);
 
@@ -84,7 +97,7 @@ export default function HeroSection() {
 
         <div
           ref={storyRef}
-          className="absolute top-1/3 left-2/9 -translate-x-1/2 max-w-6xl px-8 z-10"
+          className="absolute top-1/3 left-110 -translate-x-1/2 max-w-6xl px-8 z-10"
         >
           <p className="text-white text-2xl mb-6 opacity-0 translate-y-10 leading-relaxed font-bold">
             Born in the year 2012,INVENTO is the national level annual
@@ -92,6 +105,13 @@ export default function HeroSection() {
             techno-management festival of Government Engineering <br />
             College Palakkad.
           </p>
+        </div>
+
+        <div
+          ref={cardsRef}
+          className="absolute bottom-20 left-1/2 -translate-x-1/2 w-full max-w-6xl px-8 z-10"
+        >
+        <HeroSectionCard />
         </div>
       </div>
     </section>
