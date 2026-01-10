@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, useInView, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,152 +13,139 @@ const HeroSection: React.FC = () => {
     const heroRef = useRef<HTMLDivElement>(null);
     const inventoRef = useRef<HTMLDivElement>(null);
     const logoRef = useRef<HTMLDivElement>(null);
+    const leftImage = useRef<HTMLDivElement>(null);
+    const rightImage = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLDivElement>(null);
+
 
     useEffect(() => {
-        gsap.fromTo(
-            heroRef.current,
-            { 
-                opacity: 1,
-                y: 0,
-                delay: 3, 
-            },
-            {
-                opacity: 1,
-                y: 400,
-                duration: 1,
-            }
-        );
-        gsap.fromTo(
+        const t1 = gsap.timeline();
+
+        t1.fromTo(
             inventoRef.current,
-            {
-                scale: 1.5,
-                opacity: 1,
-            },
-            {
-                scale: 1,
-                opacity: 1,
-                duration: 1,
-            }
+            { y: -600, opacity: 0, scale: 0.8 },
+            { y: 0, opacity: 1, scale: 1.1, duration: 1.5, ease: "power3.out" }
+        );
+
+        gsap.fromTo(
+            [leftImage.current, rightImage.current],
+            { y: 500, opacity: 0.2 },
+            { y: 0, opacity: 1, duration: 2 }
         );
 
         gsap.fromTo(
             logoRef.current,
-            {
-                rotateZ: 55,
-            },
-            {
-                rotateZ: 0,
-                duration: 1,
+            { y: 200, rotateZ: 55, opacity: 0.3, scale: 1.5 },
+            { y: 0, rotateZ: 10, opacity: 1, scale: 1, duration: 2 }
+        );
+
+        gsap.fromTo(
+            heroRef.current,
+            { y: -100 },
+            { y: 340, duration: 2 }
+        );
+
+
+        const scrollTl = gsap.timeline({
+            scrollTrigger: {
+            trigger: sectionRef.current, 
+            start: "top top",
+            end: "+=120",
+            scrub: 0.8,
             }
-        )
+        });
+
+        scrollTl
+            .to(inventoRef.current, { scale: 1, ease: "none" })
+            .to(logoRef.current, { rotateZ: 0, ease: "none" }, 0)
+            .to(heroRef.current, { y: 800, ease: "none" }, 0);
+
+        ScrollTrigger.refresh();
 
     }, []);
 
 
-    const scrollRef = useRef<HTMLDivElement>(null);
-
-    const { scrollYProgress } = useScroll({
-        target: scrollRef,
-        offset: ["start start", "end start"],
-    });
-
-    const titleScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.6]);
-    const titleOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-    const titleY = useTransform(scrollYProgress, [0, 0.3], [0, -120]);
-
-    const leftOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-    const leftY = useTransform(scrollYProgress, [0, 0.3], [0, 150]);
-    const rightOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-    const rightY = useTransform(scrollYProgress, [0, 0.3], [0,-150]);
 
     return (
-        <motion.section
-            ref={scrollRef}
-            className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
-        >
+        <>
+            <section
+                ref={sectionRef}
+                className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
+            >
 
-            {/* Hero Image */}
-            <div
-                ref={heroRef} 
-                className="absolute z-20 -bottom-28 "
-            >
-                <Image
-                    src="/home/hero1.svg"
-                    alt="Fan Art"
-                    priority
-                    width={1380}
-                    height={200}
-                />
-            </div>
-    
-            {/* Left Image */}
-            <motion.div
-                style={{
-                    opacity: leftOpacity,
-                    y: leftY
-                }}
-                className="absolute left-0"
-            >
-                <Image
-                    src="/home/left-side.svg"
-                    alt="Left Visual"
-                    width={350}
-                    height={460}
-                    className="object-contain opacity-80"
-                />
-            </motion.div>
-
-            {/* Right Image */}
-            <motion.div
-                className="absolute right-0"
-                style={{
-                    opacity: rightOpacity,
-                    y: rightY
-                }}
-            >
-                <Image
-                    src="/home/right-side.svg"
-                    alt="Left Visual"
-                    width={350}
-                    height={460}
-                    className="object-contain opacity-80"
-                />
-            </motion.div>
-
-            <motion.div 
-                style={{
-                    scale: titleScale,
-                    opacity: titleOpacity,
-                    y: titleY
-                }} 
-                className="relative z-10 flex flex-col items-center justify-center px-6 max-w-2xl"
-            >
-                <div ref={logoRef}>
+                {/* Hero Image */}
+                <div
+                    ref={heroRef}
+                    className="absolute bottom-0 w-full h-full z-20"
+                >
                     <Image
-                        src="/home/LOGO.svg"
-                        alt="Center Visual"
-                        width={300}
-                        height={220}
-                        className="mt-3"
+                        src="/home/home japanees fan.png"
+                        alt="Fan Art"
+                        priority
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+        
+                {/* Left Image */}
+                <div
+                    ref={leftImage}
+                    className="absolute left-0"
+                >
+                    <Image
+                        src="/home/left-side.svg"
+                        alt="Left Visual"
+                        width={350}
+                        height={460}
+                        className="object-contain opacity-80"
                     />
                 </div>
 
-                <motion.div
-                    className="absolute">
-                    <h1 
-                        ref={inventoRef}
-                        className="m-0 p-0 leading-none tracking-tighter"
-                    >
-                        INVENTO
-                    </h1>
+                {/* Right Image */}
+                <div
+                    ref={rightImage}
+                    className="absolute right-0"
+                >
+                    <Image
+                        src="/home/right-side.svg"
+                        alt="Left Visual"
+                        width={350}
+                        height={460}
+                        className="object-contain opacity-80"
+                    />
+                </div>
 
-                    <h3 className="text-[#FF0000] text-center">
-                        JAN 29, 30, 31
-                    </h3>
-                </motion.div>
-            </motion.div>
+                <div  
+                    className="relative z-10 flex flex-col items-center justify-center px-6 max-w-2xl"
+                >
+                    <div ref={logoRef}>
+                        <Image
+                            src="/home/LOGO.svg"
+                            alt="Center Visual"
+                            width={300}
+                            height={220}
+                            className="mt-3"
+                        />
+                    </div>
 
-        </motion.section>
+                    <div
+                        className="absolute">
+                        <h1 
+                            ref={inventoRef}
+                            className="m-0 p-0 leading-none tracking-tighter"
+                        >
+                            INVENTO
+                        </h1>
+
+                        <h3 className="text-[#FF0000] text-center">
+                            JAN 29, 30, 31
+                        </h3>
+                    </div>
+                </div>
+
+            </section>
+            <div className="h-[200vh]"></div>
+        </>
     );
 }
 
