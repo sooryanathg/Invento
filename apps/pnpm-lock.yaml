@@ -14,12 +14,9 @@ importers:
       gsap:
         specifier: ^3.14.2
         version: 3.14.2
-<<<<<<< HEAD
       lenis:
         specifier: ^1.3.17
         version: 1.3.17(react@19.2.3)
-=======
->>>>>>> badcc7c (remove: framer motion removed)
       next:
         specifier: 16.1.1
         version: 16.1.1(@babel/core@7.28.5)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
