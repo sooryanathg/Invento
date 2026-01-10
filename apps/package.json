@@ -11,7 +11,10 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "gsap": "^3.14.2",
+<<<<<<< HEAD
     "lenis": "^1.3.17",
+=======
+>>>>>>> badcc7c (remove: framer motion removed)
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
