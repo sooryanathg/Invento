@@ -14,7 +14,7 @@ export default function FAQBottomDecor() {
   
   return (
     <img
-      src="/bottom-right.webp"
+      src="/faq/bottom-right.webp"
       alt=""
       className={styles.bottomDecor}
       style={{

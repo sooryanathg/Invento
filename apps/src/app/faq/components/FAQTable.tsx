@@ -43,7 +43,7 @@ export default function FAQTable({ items }: FAQTableProps) {
               <span className={styles.questionText}>{item.question}</span>
               <span className={styles.icon}>
                 <img 
-                  src={expandedId === item.id ? "/up.svg" : "/down.svg"} 
+                  src={expandedId === item.id ? "/faq/up.svg" : "/faq/down.svg"} 
                   alt="toggle"
                   style={{ width: expandedId === item.id ? '28px' : '20px', height: expandedId === item.id ? '28px' : '20px' }}
                 />

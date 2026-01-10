@@ -14,7 +14,7 @@ export default function FAQTopDecor() {
   
   return (
     <img
-      src="/top-left.webp"
+      src="/faq/top-left.webp"
       alt=""
       className={styles.topDecor}
       style={{
