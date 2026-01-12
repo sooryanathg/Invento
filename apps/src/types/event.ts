@@ -13,4 +13,5 @@ export interface Event {
   time: string
   venue: string
   poster: string
+  day:  1 | 2 | 3 
 }

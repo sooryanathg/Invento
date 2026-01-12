@@ -22,20 +22,29 @@ const categoryColors: Record<string, string> = {
   ALL: "bg-red-600",
 }
 
-export default function EventTable() {
+export default function EventTable({
+  activeDay,
+}: {
+  activeDay: 1 | 2 | 3
+}) {
   const { events } = useEvents()
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState<EventCategory | "ALL">("ALL")
+  const [activeCategory, setActiveCategory] =
+    useState<EventCategory | "ALL">("ALL")
 
-  const filteredEvents =
-    active === "ALL"
+  const categoryFiltered =
+    activeCategory === "ALL"
       ? events
-      : events.filter(e => e.category === active)
+      : events.filter(e => e.category === activeCategory)
+
+  const dayFilteredEvents = categoryFiltered.filter(
+    e => e.day === activeDay
+  )
 
   return (
     <div className="w-full relative">
 
-      <div className="flex items-center px-6 pb-4 border-b border-white/40 text-xs sticky top-0  z-20">
+      <div className="flex items-center px-6 pb-4 border-b border-white/40 text-xs sticky top-0 z-20 bg-black">
         <div className="flex-[7] flex items-center gap-8 pl-4 relative">
           <button
             onClick={() => setOpen(!open)}
@@ -46,21 +55,19 @@ export default function EventTable() {
           </button>
 
           <span className="uppercase tracking-[0.25em] text-sm">
-             Event
+            Event
           </span>
 
           {open && (
-            <div className="absolute top-12 left-4  backdrop-blur-md p-8 grid grid-cols-2 gap-x-15 gap-y-6 z-30">
+            <div className="absolute top-12 left-4 backdrop-blur-md p-8 grid grid-cols-2 gap-x-15 gap-y-6 z-30">
               {categories.map(cat => (
                 <button
                   key={cat}
                   onClick={() => {
-                    setActive(cat)
+                    setActiveCategory(cat)
                     setOpen(false)
                   }}
-                  className={`w-48 py-3 text-sm font-extrabold uppercase tracking-widest text-center text-white font-akira
-                    ${categoryColors[cat]}
-                  `}
+                  className={`w-48 py-3 text-sm font-extrabold uppercase tracking-widest text-center text-white font-akira ${categoryColors[cat]}`}
                 >
                   {cat}
                 </button>
@@ -74,9 +81,11 @@ export default function EventTable() {
         <div className="flex-[1]" />
       </div>
 
-      <div className="max-h-[65vh] overflow-y-auto pr-2">
-
-        {filteredEvents.map(event => (
+      <div
+        key={activeDay}
+        className="max-h-[65vh] overflow-y-auto pr-2 opacity-0 animate-fadeIn"
+      >
+        {dayFilteredEvents.map(event => (
           <div
             key={event.id}
             className="flex items-center px-6 py-10 border-b border-white/30"
@@ -90,9 +99,7 @@ export default function EventTable() {
 
               <div>
                 <span
-                  className={`inline-flex justify-center items-center mb-4 w-48 py-2 text-xs font-extrabold uppercase tracking-widest font-akira text-white
-                    ${categoryColors[event.category]}
-                  `}
+                  className={`inline-flex justify-center items-center mb-4 w-48 py-2 text-xs font-extrabold uppercase tracking-widest font-akira text-white ${categoryColors[event.category]}`}
                 >
                   {event.category}
                 </span>
@@ -122,7 +129,6 @@ export default function EventTable() {
             </div>
           </div>
         ))}
-
       </div>
     </div>
   )

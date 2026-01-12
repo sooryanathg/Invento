@@ -10,6 +10,7 @@ export const eventsData: Event[] = [
     time: "01 TO 2:30 PM",
     venue: "PG SEMINAR HALL CS 101",
     poster: "/images/dance.jpg",
+    day:1,
   },
   {
     id: "2",
@@ -20,5 +21,16 @@ export const eventsData: Event[] = [
     time: "01 TO 2:30 PM",
     venue: "PG SEMINAR HALL CS 101",
     poster: "/images/dance.jpg",
+    day:2,
+  },
+    {
+    id: "4",
+    title: "DJ NIGHT",
+    description:"KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+    category: "SAPTHA",
+    time: "06:00 – 09:00 PM",
+    venue: "OPEN GROUND",
+    poster: "/images/dance.jpg",
+    day: 3,
   },
 ]

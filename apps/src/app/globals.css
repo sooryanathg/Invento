@@ -4,6 +4,86 @@
   --font-family-akira: var(--font-akira);
   --font-family-flood: var(--font-flood);
 }
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease forwards;
+}
+.leaf {
+  top: -10%;
+  opacity: 0;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform-style: preserve-3d;
+}
+
+
+.leaf-maple {
+  animation-name: maple-fall;
+}
+
+@keyframes maple-fall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotateZ(0deg);
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate(var(--drift), 110vh)
+      rotateZ(var(--rotate));
+  }
+}
+
+
+.leaf-petal {
+  filter: blur(0.3px);
+  animation-name: petal-fall;
+}
+
+@keyframes petal-fall {
+  0% {
+    opacity: 0;
+    transform:
+      translate(0, 0)
+      rotateZ(0deg)
+      rotateX(25deg);
+  }
+
+  20% {
+    opacity: 0.9;
+  }
+
+  40% {
+    transform:
+      translate(calc(var(--drift) * 0.4), 35vh)
+      rotateZ(calc(var(--rotate) * 0.4))
+      rotateX(var(--tilt));
+  }
+
+  70% {
+    transform:
+      translate(calc(var(--drift) * 0.7), 70vh)
+      rotateZ(calc(var(--rotate) * 0.7))
+      rotateY(var(--tilt));
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(var(--drift), 110vh)
+      rotateZ(var(--rotate))
+      rotateX(calc(var(--tilt) * -1));
+  }
+}
+
 
 @layer base {
   h1 {

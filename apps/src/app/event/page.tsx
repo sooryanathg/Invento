@@ -1,38 +1,35 @@
+"use client"
+
+import { useState } from "react"
+import dynamic from "next/dynamic"
 import EventTable from "@/src/components/events/EventTable"
+import EventScheduleHeader from "@/src/components/events/EventScheduleHeader"
+
+const FallingLeaves = dynamic(
+  () => import("@/src/components/events/fallingleaves"),
+  { ssr: false }
+)
 
 export default function EventsPage() {
+  const [activeDay, setActiveDay] = useState<1 | 2 | 3>(1)
+
   return (
     <div
-      className="min-h-screen w-full bg-[length:100%_auto] bg-center bg-no-repeat text-white"
-      style={{ backgroundImage: "url('/eventbg.svg')" }}
+      className="min-h-screen w-full relative text-white
+                 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('event/eventbg.svg')" }}
     >
-      <div className="min-h-screen w-full">
+      <FallingLeaves />
+
+      <div className="relative z-[5] min-h-screen w-full">
         <div className="flex w-full min-h-screen">
-
           <div className="w-[15%]" />
-
           <div className="w-[85%] pr-10 py-16 relative">
-
-            <div className="absolute top-15 right-[18%] text-left leading-[0.6]">
-              <h2 className="text-6xl font-extrabold uppercase text-red-600 font-akira tracking-[0.1em]">
-                Day 1
-              </h2>
-              <span className="block text-7xl font-extrabold uppercase text-red-600 font-akira tracking-[0.1em]">
-                29 Jan
-              </span>
-            </div>
-
-            <div className="mb-20 pl-10">
-              <h1 className="text-7xl font-extrabold uppercase text-white font-akira">
-                Event
-              </h1>
-              <h1 className="text-7xl font-extrabold uppercase text-white font-akira">
-                Schedule
-              </h1>
-            </div>
-
-            <EventTable />
-
+            <EventScheduleHeader
+              activeDay={activeDay}
+              setActiveDay={setActiveDay}
+            />
+            <EventTable activeDay={activeDay} />
           </div>
         </div>
       </div>
