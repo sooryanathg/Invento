@@ -27,3 +27,8 @@ body {
   font-family: var(--font-akira), sans-serif;
   @apply bg-white text-black;
 }
+.history-card { transition: transform .4s ease; }
+.history-card.is-active {
+  transform: scale(1.25) translateY(-20px);
+  z-index:30;
+}

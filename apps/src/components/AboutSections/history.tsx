@@ -68,7 +68,7 @@ export default function History() {
         <div className="relative w-full h-[45%]">
            
            {/* Logo - Left */}
-           <div className="absolute left-[5vw] -top-28 origin-left scale-[0.6]">
+           <div className="absolute left-[5vw] -top-40 origin-left scale-[0.6]">
               <HistoryCircularLogo />
            </div>
 
