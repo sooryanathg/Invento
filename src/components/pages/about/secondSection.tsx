@@ -32,6 +32,7 @@ export default function SecondSection() {
           end: "+=2000%",
           scrub: true,  
           invalidateOnRefresh: true,
+          markers: true,
         },
       });
 

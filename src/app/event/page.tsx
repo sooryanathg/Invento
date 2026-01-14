@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import dynamic from "next/dynamic"
-import EventTable from "@/src/components/events/EventTable"
-import EventScheduleHeader from "@/src/components/events/EventScheduleHeader"
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import EventTable from "@/src/components/pages/events/EventTable";
+import EventScheduleHeader from "@/src/components/pages/events/EventScheduleHeader";
 
 const FallingLeaves = dynamic(
-  () => import("@/src/components/events/fallingleaves"),
-  { ssr: false }
-)
+  () => import("@/src/components/pages/events/fallingleaves"),
+  { ssr: false },
+);
 
 export default function EventsPage() {
-  const [activeDay, setActiveDay] = useState<1 | 2 | 3>(1)
-  const [showBackdrop, setShowBackdrop] = useState(false)
+  const [activeDay, setActiveDay] = useState<1 | 2 | 3>(1);
+  const [showBackdrop, setShowBackdrop] = useState(false);
 
   return (
     <div
@@ -22,13 +22,15 @@ export default function EventsPage() {
       <FallingLeaves />
 
       {showBackdrop && (
-        <div  className="
+        <div
+          className="
       fixed inset-0
       z-[15]
       bg-black/50
       transition-opacity duration-300
       pointer-events-auto
-    " />
+    "
+        />
       )}
 
       <div className="relative min-h-screen w-full">
@@ -41,13 +43,10 @@ export default function EventsPage() {
               setActiveDay={setActiveDay}
             />
 
-            <EventTable
-              activeDay={activeDay}
-              onModalChange={setShowBackdrop}
-            />
+            <EventTable activeDay={activeDay} onModalChange={setShowBackdrop} />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
