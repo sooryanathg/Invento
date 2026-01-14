@@ -1,5 +1,5 @@
 "use client";
-"use client";
+
 import { useRef, useState } from "react";
 import HistoryCard from "./HistoryCard";
 import gsap from "gsap";
@@ -15,16 +15,7 @@ const historyImages = [
   "/about/history/cards/img7.png",
 ];
 
-// Define the 7 slots (positions)
-const SLOTS = [
-  { left: "0%",   width: "12vw", height: "35vh", zIndex: 10,  scale: 1 }, 
-  { left: "14%",  width: "12vw", height: "35vh", zIndex: 10,  scale: 1 }, 
-  { left: "28%",  width: "12vw", height: "35vh", zIndex: 10,  scale: 1 }, 
-  { left: "40%",  width: "22vw", height: "64vh", zIndex: 50, opacity: 1 }, // Slot 3 Highlight
-  { left: "63%",  width: "12vw", height: "35vh", zIndex: 10 },
-  { left: "77.5%", width: "12vw", height: "35vh", zIndex: 10 },
-  { left: "92%",   width: "12vw", height: "35vh", zIndex: 10 },
-];
+
 
 // Refined SLOTS to fit 100% width relative container
 const POSITIONS = [
