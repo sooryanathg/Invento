@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function FAQBackground() {
   return (
-    <div 
+    <div
       style={{
         position: "fixed",
         top: 0,
@@ -12,11 +12,11 @@ export default function FAQBackground() {
         width: "100%",
         height: "100%",
         zIndex: 0,
-        pointerEvents: "none"
+        pointerEvents: "none",
       }}
     >
       <Image
-        src="/bg.webp"
+        src="/faq/bg.webp"
         alt=""
         fill
         priority
