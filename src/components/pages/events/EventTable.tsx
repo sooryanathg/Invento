@@ -40,25 +40,24 @@ export default function EventTable({
       ? events
       : events.filter(e => e.category === active)
 
-  const dayFilteredEvents = 
-    typeof window !== 'undefined' && window.innerWidth < 768
-      ? filteredEvents
-      : filteredEvents.filter(e => e.day === activeDay)
+  const dayFilteredEvents = filteredEvents.filter(
+    e => e.day === activeDay
+  )
 
   return (
     <div className="w-full relative">
 
-      <div className="flex md:hidden items-center px-6 py-1 border-b border-white/40 text-xs sticky top-0 z-10 bg-bg -mt-4">
+      <div className="md:hidden relative">
         <button
           onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 border border-white/50 px-2 py-0.5 text-[10px] uppercase font-semibold tracking-wider"
+          className="absolute -top-8 left-9 flex items-center gap-2 border border-white/50 px-2 py-0.5 text-[10px] uppercase font-semibold tracking-wider z-20 bg-bg"
         >
           <img src="/event/filter.svg" className="w-4 h-4" />
           Filter
         </button>
 
         {open && (
-          <div className="absolute top-12 left-4 backdrop-blur-md p-8 grid grid-cols-2 gap-x-10 gap-y-6 z-30">
+          <div className="absolute top-12 left-4 backdrop-blur-md p-4 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-x-10 md:gap-y-6 z-30 w-48">
             {categories.map(cat => (
               <button
                 key={cat}
@@ -66,7 +65,7 @@ export default function EventTable({
                   setActive(cat)
                   setOpen(false)
                 }}
-                className={`w-48 py-3 text-sm font-extrabold uppercase tracking-widest text-white font-akira
+                className={`w-full md:w-48 py-2 md:py-3 text-xs md:text-sm font-extrabold uppercase tracking-widest text-white font-akira
                   ${categoryColors[cat]}
                 `}
               >
@@ -126,11 +125,11 @@ export default function EventTable({
             }}
             className="flex flex-col md:flex-row md:items-center px-6 py-8 md:py-10 border-b border-white/30 cursor-pointer hover:bg-white/5 transition"
           >
-            <div className="flex-[7] flex gap-4 md:gap-8 pl-4 mb-4 md:mb-0">
+            <div className="flex-[7] flex gap-4 md:gap-8 pl-0 md:pl-4 mb-4 md:mb-0">
               <img
                 src={event.poster}
                 alt={event.title}
-                className="w-24 md:w-32 h-32 md:h-44 object-cover border border-white/30"
+                className="w-24 md:w-32 h-32 md:h-44 object-cover border border-white/30 flex-shrink-0"
               />
 
               <div>
@@ -160,8 +159,8 @@ export default function EventTable({
               {event.venue}
             </div>
 
-            <div className="flex flex-row-reverse md:flex-row md:flex-[1] md:text-right md:pl-6 gap-4 mt-1 md:mt-0 w-full md:w-auto items-start">
-              <div className="md:hidden text-[9px] font-semibold">
+            <div className="flex flex-row-reverse md:flex-row md:flex-[1] md:text-right md:pl-6 gap-4 mt-1 md:mt-0 w-full md:w-auto items-start iphone-14-pro-max-button-adjust">
+              <div className="md:hidden text-[9px] font-semibold flex-1">
                 <div className="flex gap-1">
                   <span className="text-red-600">Time:</span>
                   <span className="text-white">{event.time}</span>
@@ -171,7 +170,7 @@ export default function EventTable({
                   <span className="text-white">{event.venue}</span>
                 </div>
               </div>
-              <button className="bg-red-600 px-4 md:px-7 py-1.5 md:py-2.5 text-[10px] md:text-xs font-bold uppercase hover:bg-red-700 md:flex-none whitespace-nowrap">
+              <button className="bg-red-600 px-4 md:px-7 py-1.5 md:py-2.5 text-[10px] md:text-xs font-bold uppercase hover:bg-red-700 md:flex-none whitespace-nowrap flex-shrink-0">
                 Register
               </button>
             </div>
