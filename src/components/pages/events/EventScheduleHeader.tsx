@@ -23,44 +23,10 @@ export default function EventScheduleHeader({
         </div>
       </div>
 
-      {/* Mobile navigation with arrows and progress bar - moved down */}
+      {/* Mobile progress bar - swipe to navigate */}
       <div className="md:hidden absolute top-56 right-4 text-red-600 font-akira">
-        <div className="flex items-center gap-2 justify-end">
-          <button
-            onClick={() =>
-              setActiveDay(prev =>
-                prev > 1 ? ((prev - 1) as 1 | 2 | 3) : prev
-              )
-            }
-            disabled={activeDay === 1}
-            className={`text-white text-lg leading-none transition ${
-              activeDay === 1
-                ? "opacity-30 cursor-not-allowed"
-                : "hover:text-red-500"
-            }`}
-          >
-            ←
-          </button>
-
-          <button
-            onClick={() =>
-              setActiveDay(prev =>
-                prev < 3 ? ((prev + 1) as 1 | 2 | 3) : prev
-              )
-            }
-            disabled={activeDay === 3}
-            className={`text-white text-lg leading-none transition ${
-              activeDay === 3
-                ? "opacity-30 cursor-not-allowed"
-                : "hover:text-red-500"
-            }`}
-          >
-            →
-          </button>
-        </div>
-
         {/* PARTITIONED PROGRESS BAR FOR MOBILE */}
-        <div className="mt-2 w-40 h-2 grid grid-cols-3 gap-1">
+        <div className="w-40 h-2 grid grid-cols-3 gap-1">
           {[1, 2, 3].map(day => (
             <div
               key={day}
