@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 interface NavigationLinksProps {
+  showElements: boolean;
   title: string;
   titleRight: string;
   titleTop: string;
@@ -15,6 +16,7 @@ interface NavigationLinksProps {
 }
 
 export default function NavigationLinks({
+  showElements,
   title,
   titleRight,
   titleTop,
@@ -107,7 +109,7 @@ export default function NavigationLinks({
     });
 
     return () => scrollTrigger.kill();
-  }, []);
+  }, [showElements]);
 
   // For small phones like iPhone SE, move content up
   const titleMobileOffset = isSmallPhone 
@@ -146,6 +148,7 @@ export default function NavigationLinks({
           margin: 0,
           padding: 0,
           whiteSpace: "nowrap",
+          visibility: showElements ? "visible" : "hidden",
         }}
       >
         {title}
@@ -176,6 +179,7 @@ export default function NavigationLinks({
             padding: 0,
             textDecoration: "none",
             whiteSpace: "nowrap",
+            visibility: showElements ? "visible" : "hidden",
           }}
         >
           {link.text}

@@ -8,9 +8,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ContactBackgroundProps {
   sectionRef: React.RefObject<HTMLElement | null>;
+  showElements: boolean;
 }
 
-export default function ContactBackground({ sectionRef }: ContactBackgroundProps) {
+export default function ContactBackground({ sectionRef, showElements }: ContactBackgroundProps) {
   const bottomImageRef = useRef<HTMLImageElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -60,7 +61,7 @@ export default function ContactBackground({ sectionRef }: ContactBackgroundProps
         // Clear any existing timeout
         clearTimeout(timeoutId);
         // Animate logo from left to right
-        if (logo) {
+        if (logo && showElements) {
           gsap.to(logo, {
             x: 0,
             opacity: 1,
@@ -68,15 +69,15 @@ export default function ContactBackground({ sectionRef }: ContactBackgroundProps
             ease: "power3.out",
           });
         }
-        // Wait 1 second then animate
-        timeoutId = setTimeout(() => {
+        // Animate bottom image immediately if showElements is true
+        if (showElements) {
           gsap.to(bottomImg, {
             y: 0,
             opacity: 1,
             duration: 1,
             ease: "power2.out",
           });
-        }, 1000);
+        }
       },
       onLeaveBack: () => {
         // Clear timeout if scrolling up before animation completes
@@ -109,14 +110,15 @@ export default function ContactBackground({ sectionRef }: ContactBackgroundProps
             ease: "power3.out",
           });
         }
-        timeoutId = setTimeout(() => {
+        // Animate bottom image immediately
+        if (showElements) {
           gsap.to(bottomImg, {
             y: 0,
             opacity: 1,
             duration: 1,
             ease: "power2.out",
           });
-        }, 1000);
+        }
       },
       onLeave: () => {
         // When scrolling past, keep it visible
@@ -128,7 +130,7 @@ export default function ContactBackground({ sectionRef }: ContactBackgroundProps
       clearTimeout(timeoutId);
       scrollTrigger.kill();
     };
-  }, [sectionRef]);
+  }, [sectionRef, showElements]);
 
   return (
     <>
@@ -147,6 +149,7 @@ export default function ContactBackground({ sectionRef }: ContactBackgroundProps
           height: "auto",
           maxWidth: isMobile ? "400px" : "550px",
           padding: "20px",
+          visibility: showElements ? "visible" : "hidden",
         }}
       />
 

@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ContactInfo() {
+export default function ContactInfo({ showElements }: { showElements: boolean }) {
   const [isMobile, setIsMobile] = useState(false);
   const emailRef = useRef<HTMLParagraphElement>(null);
   const phoneRef = useRef<HTMLParagraphElement>(null);
@@ -62,7 +62,7 @@ export default function ContactInfo() {
     });
 
     return () => scrollTrigger.kill();
-  }, []);
+  }, [showElements]);
 
   return (
     <>
@@ -83,6 +83,7 @@ export default function ContactInfo() {
           color: "#FFFFFF",
           zIndex: 20,
           margin: 0,
+          visibility: showElements ? "visible" : "hidden",
         }}
       >
         inventogec@gmail.com
@@ -105,6 +106,7 @@ export default function ContactInfo() {
           color: "#FFFFFF",
           zIndex: 20,
           margin: 0,
+          visibility: showElements ? "visible" : "hidden",
         }}
       >
         1234567890

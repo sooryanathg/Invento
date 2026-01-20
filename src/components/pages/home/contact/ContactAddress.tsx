@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ContactAddress() {
+export default function ContactAddress({ showElements }: { showElements: boolean }) {
   const [isMobile, setIsMobile] = useState(false);
   const addressRef = useRef<HTMLParagraphElement>(null);
 
@@ -55,7 +55,7 @@ export default function ContactAddress() {
     });
 
     return () => scrollTrigger.kill();
-  }, []);
+  }, [showElements]);
 
   return (
     <p
@@ -79,6 +79,7 @@ export default function ContactAddress() {
         wordWrap: "break-word",
         overflowWrap: "break-word",
         textAlign: isMobile ? "left" : "left",
+        visibility: showElements ? "visible" : "hidden",
       }}
     >
       Government Engineering College Sreekrishnapuram, Palakkad, Kerala - 678633

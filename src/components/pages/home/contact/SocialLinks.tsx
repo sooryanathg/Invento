@@ -45,7 +45,7 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
-export default function SocialLinks() {
+export default function SocialLinks({ showElements }: { showElements: boolean }) {
   const [isMobile, setIsMobile] = useState(false);
   const linksRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
@@ -77,17 +77,19 @@ export default function SocialLinks() {
       trigger: firstLink.parentElement,
       start: "top bottom",
       onEnter: () => {
-        linksRefs.current.forEach((link, index) => {
-          if (link) {
-            gsap.to(link, {
-              y: 0,
-              opacity: 1,
-              duration: 0.6,
-              ease: "power3.out",
-              delay: index * 0.1,
-            });
-          }
-        });
+        if (showElements) {
+          linksRefs.current.forEach((link, index) => {
+            if (link) {
+              gsap.to(link, {
+                y: 0,
+                opacity: 1,
+                duration: 0.6,
+                ease: "power3.out",
+                delay: index * 0.1,
+              });
+            }
+          });
+        }
       },
       onLeaveBack: () => {
         linksRefs.current.forEach((link) => {
@@ -104,7 +106,7 @@ export default function SocialLinks() {
     });
 
     return () => scrollTrigger.kill();
-  }, []);
+  }, [showElements]);
 
   return (
     <>
@@ -124,6 +126,7 @@ export default function SocialLinks() {
             zIndex: 20,
             cursor: "pointer",
             textDecoration: "none",
+            visibility: showElements ? "visible" : "hidden",
           }}
         >
           <img

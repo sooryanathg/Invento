@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ContactHeader() {
+export default function ContactHeader({ showElements }: { showElements: boolean }) {
   const [isMobile, setIsMobile] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -36,12 +36,14 @@ export default function ContactHeader() {
       trigger: title.parentElement,
       start: "top bottom",
       onEnter: () => {
-        gsap.to(title, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-        });
+        if (showElements) {
+          gsap.to(title, {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+          });
+        }
       },
       onLeaveBack: () => {
         gsap.to(title, {
@@ -54,7 +56,7 @@ export default function ContactHeader() {
     });
 
     return () => scrollTrigger.kill();
-  }, []);
+  }, [showElements]);
 
   return (
     <h1
@@ -73,6 +75,7 @@ export default function ContactHeader() {
         color: "#FFFFFF",
         zIndex: 20,
         margin: 0,
+        visibility: showElements ? "visible" : "hidden",
       }}
     >
       CONTACT US

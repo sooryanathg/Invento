@@ -248,6 +248,7 @@ export default function FAQSection() {
               bottom: "32px",
               left: "32px",
               zIndex: 50,
+              visibility: showElements ? "visible" : "hidden",
             }}
           >
             <p
