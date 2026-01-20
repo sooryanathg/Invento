@@ -39,44 +39,40 @@ export default function EventModal({
         ✕
       </button>
 
-      <div className="flex gap-20 px-10 py-10">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-20 px-6 md:px-10 py-8 md:py-10">
 
         <img
           src={event.poster}
           alt={event.title}
-          className="w-72 h-[20rem] object-cover border-4 border-lime-400"
+          className="w-full md:w-72 h-48 md:h-[20rem] object-cover border-4 border-lime-400"
         />
 
         <div className="flex-1 text-white font-flood">
 
-    
-          <span className="inline-block mb-4 bg-red-600 px-4 py-1 text-xs font-extrabold uppercase">
-            {event.category}
-          </span>
-
-      
-          <h2 className="text-4xl font-extrabold uppercase font-akira mb-5">
+          <h2 className="text-base md:text-4xl font-extrabold uppercase font-akira mb-5">
             {event.title}
           </h2>
 
       
-          <p className="text-sm leading-relaxed text-gray-200 mb-8 max-w-xl">
+          <p className="text-sm leading-relaxed text-gray-200 mb-8 max-w-xl" style={{ fontFamily: "'Urbanist', sans-serif" }}>
             {event.description}
           </p>
 
        
-          <div className="grid grid-cols-2 gap-y-4 text-sm mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 text-sm mb-8">
             <div><span className="text-red-500 font-bold">Prize Pool:</span> 20K</div>
             <div><span className="text-red-500 font-bold">Reg Fee:</span> 200</div>
-            <div><span className="text-red-500 font-bold">Time:</span> {event.time}</div>
-            <div><span className="text-red-500 font-bold">Venue:</span> {event.venue}</div>
-            <div><span className="text-red-500 font-bold">Queries:</span> 98098 21355</div>
+            <div className="hidden md:block"><span className="text-red-500 font-bold">Time:</span> {event.time}</div>
+            <div className="hidden md:block"><span className="text-red-500 font-bold">Venue:</span> {event.venue}</div>
+            <div className="hidden md:block"><span className="text-red-500 font-bold">Queries:</span> 98098 21355</div>
           </div>
 
         
-          <button className="bg-red-600 px-14 py-3 text-sm font-bold uppercase hover:bg-red-700">
-            Register
-          </button>
+          <div className="flex justify-center md:justify-start">
+            <button className="bg-red-600 px-8 md:px-14 py-2 md:py-3 text-xs md:text-sm font-bold uppercase hover:bg-red-700">
+              Register
+            </button>
+          </div>
 
         </div>
       </div>
