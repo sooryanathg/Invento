@@ -200,7 +200,7 @@ export default function FAQSection() {
             width: "291px",
             height: "160px",
             left: isMobile ? "20px" : "250px",
-            top: isMobile ? "140px" : "120px",
+            top: isMobile ? "140px" : "220px",
             fontStyle: "normal",
             fontWeight: "800",
             fontSize: isMobile ? "50px" : "87.94px",
@@ -220,7 +220,7 @@ export default function FAQSection() {
         </h1>
 
         <div 
-          className="relative z-10 px-4 h-full pt-8 md:pt-64 pb-32"
+          className="relative z-10 px-4 h-full pt-8 md:pt-32 pb-32"
           style={{
             animation: isInView ? "slideInDown 0.8s ease-out 0.8s forwards" : "none",
             opacity: isInView ? 1 : 0,
