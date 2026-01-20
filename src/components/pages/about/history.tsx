@@ -101,7 +101,7 @@ export default function History() {
              // Dynamic calculation to hit top of window with padding
              const currentTop = title.getBoundingClientRect().top;
              if (window.innerWidth < 768) {
-                 return `${-(currentTop - 85)}px`; // Mobile: 85px from top (nav height)
+                 return `${-(currentTop - 30)}px`; // Mobile: 85px from top (nav height)
              }
              return `${-(currentTop - 25)}px`; // Desktop: 40px from top
          },
