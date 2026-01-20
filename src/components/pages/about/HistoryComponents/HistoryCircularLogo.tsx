@@ -48,6 +48,7 @@ export default function HistoryCircularLogo() {
           fontSize="22"
           fontWeight="bold"
           letterSpacing="0.2em"
+          className="font-urbanist"
         >
           <textPath href="#circlePath" startOffset="0%" textLength="750">
             INVENTO • INVENTO • INVENTO • INVENTO •
