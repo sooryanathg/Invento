@@ -1,6 +1,11 @@
+"use client";
 import Image from "next/image";
 
-export default function MenuBar() {
+type MenuBarProps = {
+  onOpen: () => void;
+};
+
+export default function MenuBar({ onOpen }: MenuBarProps) {
   return (
     <div className="flex w-fit gap-2 bg-(--invento-gray) p-1.5 rounded-xl items-center">
       {/* Invento Logo Button */}
@@ -14,13 +19,16 @@ export default function MenuBar() {
       </button>
 
       {/* Menu Button */}
-      <button className="flex items-center flex-1 gap-2 border p-3 border-(--invento-light-gray) rounded-md hover:bg-white/10 transition">
+      <button
+        className="flex items-center flex-1 gap-2 border p-3 border-(--invento-light-gray) rounded-md hover:bg-white/10 transition"
+        onClick={onOpen}
+      >
         <p className="text-white font-urbanist">Menu</p>
         <div className="flex relative h-5 w-5 items-center">
           <Image
             fill
             alt="Hamburger Menu"
-            src="/icons/hamburger-menu.svg"
+            src="/ui/icons/hamburger-menu.svg"
             className="p-0.5"
           />
         </div>
