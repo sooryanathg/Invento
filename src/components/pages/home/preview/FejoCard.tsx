@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const FejoCard: React.FC = () => (
     <div className="relative -mt-24 w-full scale-105 origin-center">
@@ -79,9 +80,9 @@ const FejoCard: React.FC = () => (
                 <br />
                 Experience the raw, unfiltered energy that redefined a genre.
             </h4>
-            <button className="absolute bottom-2 md:bottom-12 bg-white text-black text-[5px] lg:text-xl font-bold uppercase px-1 py-1 lg:px-8 lg:py-3">
+            <Link href={"/event"} className="absolute bottom-2 md:bottom-12 bg-white text-black text-[5px] lg:text-xl font-bold uppercase px-1 py-1 lg:px-8 lg:py-3">
                 REGISTER
-            </button>
+            </Link>
             <div className="absolute bottom-2 lg:bottom-5 left-3 lg:left-14 text-[7px] lg:text-xl  font-akira text-lg">
                 FEJO
             </div>
