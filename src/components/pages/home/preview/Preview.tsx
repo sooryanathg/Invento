@@ -3,19 +3,20 @@
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Preview = () => {
   const mainRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
+  useLayoutEffect(() => { 
+    const ctx = gsap.context((self) => { 
       
-      const sections = gsap.utils.toArray<HTMLElement>(".desktop-section");
+      const sections = self.selector ? self.selector(".desktop-section") : [];
 
-      sections.forEach((section) => {
+      sections.forEach((section: HTMLElement) => {
         const rightImg = section.querySelector(".right-image");
         const rightBtn = section.querySelector(".right-btn");
         const leftImg = section.querySelector(".left-image");
@@ -24,16 +25,17 @@ const Preview = () => {
         if (rightImg) {
           gsap.fromTo(
             [rightImg, rightBtn],
-            { xPercent: 50, opacity: 0 },
+            { xPercent: 100, autoAlpha: 0 }, 
             {
               xPercent: 0,
-              opacity: 1,
+              autoAlpha: 1,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: section, 
-                start: "top center", 
+                start: "top top", 
                 end: "bottom center", 
-                scrub: 1, 
+                scrub: 1,
+                invalidateOnRefresh: true, 
               },
             }
           );
@@ -42,54 +44,56 @@ const Preview = () => {
         if (leftImg) {
           gsap.fromTo(
             [leftImg, leftBtn],
-            { xPercent: -50, opacity: 0 }, 
+            { xPercent: -100, autoAlpha: 0 }, 
             {
               xPercent: 0,
-              opacity: 1,
+              autoAlpha: 1,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: section,
-                start: "top center",
+                start: "top top",
                 end: "bottom center",
                 scrub: 1,
+                invalidateOnRefresh: true,
               },
             }
           );
         }
       });
 
-      gsap.utils.toArray(".right-image-mobile").forEach((img: any) => {
-        gsap.fromTo(
-          img,
-          { x: 50, opacity: 0 },
+
+      const mobileImagesRight = self.selector ? self.selector(".right-image-mobile") : [];
+      
+      mobileImagesRight.forEach((img: any) => {
+        gsap.fromTo(img,
+          { x: 50, autoAlpha: 0 },
           {
             x: 0,
-            opacity: 1,
+            autoAlpha: 1,
             duration: 1,
             ease: "power3.out",
             scrollTrigger: {
+              invalidateOnRefresh: true,
               trigger: img,
-              start: "top 85%",
-              end: "bottom 20%",
+              start: "top top",
               toggleActions: "play none none reverse",
             },
           }
         );
       });
 
-      gsap.utils.toArray(".left-image-mobile").forEach((img: any) => {
-        gsap.fromTo(
-          img,
-          { x: -50, opacity: 0 },
+      const mobileImagesLeft = self.selector ? self.selector(".left-image-mobile") : [];
+      mobileImagesLeft.forEach((img: any) => {
+        gsap.fromTo(img,
+          { x: -50, autoAlpha: 0 },
           {
             x: 0,
-            opacity: 1,
+            autoAlpha: 1,
             duration: 1,
             ease: "power3.out",
             scrollTrigger: {
               trigger: img,
-              start: "top 85%",
-              end: "bottom 20%",
+              start: "top top",
               toggleActions: "play none none reverse",
             },
           }
@@ -117,17 +121,17 @@ const Preview = () => {
           />
           
           <div className="absolute flex -bottom-18 w-full px-24 justify-end z-30">
-             <button className="bg-[#A41F22] p-3 font-akira text-white right-btn">
+             <Link href={"/coming-soon"} className="bg-[#A41F22] p-3 font-akira text-white right-btn">
                 KNOW MORE
-              </button> 
+              </Link> 
           </div>
         </section>
 
         <section className="min-h-screen relative desktop-section">
           <div className="absolute flex -bottom-18 w-full px-42 justify-end">
-            <button className="bg-[#A41F22] p-3 font-akira text-white left-btn">
+            <Link href={"/coming-soon"} className="bg-[#A41F22] p-3 font-akira text-white left-btn">
               KNOW MORE
-            </button>
+            </Link>
           </div>
           <Image
             src="/home/preview/technical.png"
@@ -146,7 +150,6 @@ const Preview = () => {
             alt="General"
             className="absolute right-0 right-image"
           />
-           {/* Added a button here just in case, or logic handles if missing */}
         </section>
       </div>
 
