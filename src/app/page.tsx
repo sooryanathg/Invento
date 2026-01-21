@@ -10,8 +10,8 @@ export default function HomePage() {
       <HeroSection />
       <ProShow />
       <Preview />
-      {/*<FAQSection />*/}
-      {/*<ContactSection />*/}
+      <FAQSection />
+      <ContactSection />
     </div>
   );
 }
