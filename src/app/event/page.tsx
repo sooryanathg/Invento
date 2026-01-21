@@ -13,19 +13,16 @@ const FallingLeaves = dynamic(
 export default function EventsPage() {
   const [activeDay, setActiveDay] = useState<1 | 2 | 3>(1)
   const [showBackdrop, setShowBackdrop] = useState(false)
-
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
 
   useEffect(() => {
-    const handleTouchStart = (e: Event) => {
-      const touchEvent = e as TouchEvent
-      touchStartX.current = touchEvent.changedTouches[0].screenX
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.changedTouches[0].screenX
     }
 
-    const handleTouchEnd = (e: Event) => {
-      const touchEvent = e as TouchEvent
-      touchEndX.current = touchEvent.changedTouches[0].screenX
+    const handleTouchEnd = (e: TouchEvent) => {
+      touchEndX.current = e.changedTouches[0].screenX
       handleSwipe()
     }
 
@@ -49,8 +46,8 @@ export default function EventsPage() {
     const element = document.querySelector(".event-swipe-container")
     if (!element) return
 
-    element.addEventListener("touchstart", handleTouchStart, { passive: true })
-    element.addEventListener("touchend", handleTouchEnd)
+    element.addEventListener("touchstart", handleTouchStart, false)
+    element.addEventListener("touchend", handleTouchEnd, false)
 
     return () => {
       element.removeEventListener("touchstart", handleTouchStart)
@@ -64,7 +61,7 @@ export default function EventsPage() {
         min-h-screen w-screen relative text-white
         bg-cover bg-right md:bg-center
         bg-no-repeat bg-fixed md:bg-scroll
-        overflow-x-hidden event-swipe-container
+        overflow-x-hidden event-swipe-container 
       "
       style={{
         backgroundImage: "url('/event/eventbg.svg')",
@@ -78,6 +75,7 @@ export default function EventsPage() {
 
       <div className="relative min-h-screen w-screen">
         <div className="flex flex-col md:flex-row w-screen min-h-screen">
+
           <div className="hidden md:block md:w-[15%]" />
 
           <div className="w-screen md:w-[85%] px-4 md:px-0 md:pr-10 py-8 md:py-16 relative">
@@ -91,6 +89,7 @@ export default function EventsPage() {
               onModalChange={setShowBackdrop}
             />
           </div>
+
         </div>
       </div>
     </div>
