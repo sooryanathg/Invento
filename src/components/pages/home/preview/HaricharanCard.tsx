@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const HaricharanCard: React.FC = () => (
     <div className="relative -mt-9 lg:-mt-25 w-full scale-105 origin-center">
@@ -81,9 +82,9 @@ const HaricharanCard: React.FC = () => (
                 <br className="hidden md:block" />
                 South India’s biggest cinematic hits.
             </p>
-            <button className="absolute bottom-3 md:bottom-15 bg-[#A41F22] text-white text-[5px] lg:text-xl font-bold uppercase px-1 py-1 lg:px-8 lg:py-3">
+            <Link href={"/event"} className="absolute bottom-3 md:bottom-15 bg-[#A41F22] text-white text-[5px] lg:text-xl font-bold uppercase px-1 py-1 lg:px-8 lg:py-3">
                 REGISTER
-            </button>
+            </Link>
 
             <div className="absolute left-3 lg:left-10 top-1/2 -translate-y-1/2 flex flex-col gap-2 lg:gap-4 text-[#A41F22] text-xl md:text-3xl">
                 <span>
