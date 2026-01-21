@@ -13,37 +13,25 @@ const faqItems = [
     id: 1,
     question: "What is Invento?",
     answer:
-      "Invento is a comprehensive inventory management solution designed to help businesses streamline their operations and improve efficiency.",
+      "Invento, the annual techno-cultural fest of Government Engineering College, Palakkad, is where innovation, creativity, and collaboration collide.",
   },
   {
     id: 2,
-    question: "How do I get started?",
+    question: "What does Invento offer?",
     answer:
-      "Getting started is simple. Sign up for an account, and you'll have access to our dashboard and tools within minutes.",
+      "Invento offers vibrant mix of events ranging from hackathons and workshops to cultural nights and intellectual games, Invento celebrates the spirit of learning, building, and exploring beyond classrooms.",
   },
   {
     id: 3,
-    question: "What features does Invento offer?",
+    question: "What is the purpose of Invento?",
     answer:
-      "Invento offers real-time inventory tracking, automated alerts, analytics, reporting, and integration with popular e-commerce platforms.",
+      "It brings together students from all departments and colleges to showcase their technical skills, creative ideas, and passion for discovery.",
   },
   {
     id: 4,
     question: "Is there customer support?",
     answer:
       "Yes, we offer 24/7 customer support via email, chat, and phone to ensure your success with our platform.",
-  },
-  {
-    id: 5,
-    question: "Can I integrate with other tools?",
-    answer:
-      "Absolutely. Invento integrates seamlessly with popular tools and platforms used in inventory management.",
-  },
-  {
-    id: 6,
-    question: "What is the pricing?",
-    answer:
-      "Our pricing is flexible and scalable based on your business needs. Contact our sales team for a custom quote.",
   },
 ];
 
@@ -70,12 +58,12 @@ export default function FAQSection() {
     if (!container || !spacer || !bg) return;
 
     const ctx = gsap.context(() => {
-      // Initial states with transforms only
-      gsap.set(bg, { opacity: 1 });
-      gsap.set(topLeft, { opacity: 0, x: -100 });
-      gsap.set(bottomRight, { opacity: 0, x: 100, y: 100 });
-      gsap.set(title, { opacity: 0, y: 100 });
-      gsap.set(table, { opacity: 0, y: -100 });
+      // Initial states with transforms - only set if elements exist
+      if (bg) gsap.set(bg, { opacity: 0 });
+      if (topLeft) gsap.set(topLeft, { opacity: 0, x: -100 });
+      if (bottomRight) gsap.set(bottomRight, { opacity: 0, x: 100, y: 100 });
+      if (title) gsap.set(title, { opacity: 0, y: 100 });
+      if (table) gsap.set(table, { opacity: 0, y: -100 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -89,42 +77,14 @@ export default function FAQSection() {
         },
       });
 
-      // Background appears immediately
-      tl.to(bg, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0);
-
-      // Hold background-only for 1 second worth of scroll
-      tl.to({}, { duration: 1 });
-
-      // Top-left slides in from left with strong transform
-      tl.to(
-        topLeft,
-        { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" },
-        "<"
-      );
-
-      // Bottom-right slides in diagonal with strong transform
-      tl.to(
-        bottomRight,
-        { opacity: 1, x: 0, y: 0, duration: 1.2, ease: "power2.out" },
-        "<+=0.2"
-      );
-
-      // Title slides up with strong transform
-      tl.to(
-        title,
-        { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" },
-        "<+=0.2"
-      );
-
-      // Table slides down with strong transform
-      tl.to(
-        table,
-        { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" },
-        "<+=0.2"
-      );
-
-      // Hold for viewing
-      tl.to({}, { duration: 1.5 });
+      // Background fades in gradually for smooth crossfade with Preview
+      if (bg) tl.to(bg, { opacity: 1, duration: 1.5, ease: "power2.out" }, 0);
+      
+      // Other elements animate after background starts fading in
+      if (topLeft) tl.to(topLeft, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0.3);
+      if (bottomRight) tl.to(bottomRight, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: "power2.out" }, 0.3);
+      if (title) tl.to(title, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0.3);
+      if (table) tl.to(table, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0.3);
     }, container);
 
     return () => ctx.revert();
@@ -132,6 +92,7 @@ export default function FAQSection() {
 
   return (
     <>
+      <div className="relative w-full h-[50vh] pointer-events-none" />
       <div ref={spacerRef} className="relative w-full h-[400vh] pointer-events-none" />
 
       <section className="fixed top-0 left-0 h-screen w-screen overflow-hidden z-20" style={{ display: isVisible ? "block" : "none" }}>
@@ -221,45 +182,6 @@ export default function FAQSection() {
           >
             <FAQTable items={faqItems} />
           </div>
-
-          {/* Mobile Contact Button */}
-          {typeof window !== "undefined" && window.innerWidth < 1024 && (
-            <div
-              style={{
-                position: "absolute",
-                bottom: "32px",
-                left: "32px",
-                zIndex: 50,
-              }}
-            >
-              <p
-                style={{
-                  color: "#fff",
-                  fontSize: "14px",
-                  marginBottom: "12px",
-                  fontFamily: "Inter",
-                  width: "128px",
-                }}
-              >
-                Still have any doubts?
-              </p>
-              <button
-                style={{
-                  width: "128px",
-                  backgroundColor: "#FF0000",
-                  color: "#fff",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  padding: "8px 12px",
-                  border: "1px solid #FF0000",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              >
-                Contact us
-              </button>
-            </div>
-          )}
         </div>
       </section>
     </>

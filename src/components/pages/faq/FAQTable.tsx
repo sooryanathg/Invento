@@ -38,7 +38,7 @@ export default function FAQTable({ items }: FAQTableProps) {
           <div className={styles.itemContent}>
             <div className={styles.numberColumn}>
               <span className={styles.questionNumber}>{String(item.id).padStart(2, '0')}</span>
-              {expandedId === item.id && isDesktop && (
+              {expandedId === item.id && (
                 <div className={styles.doubtText}>
                   <p>Still have any doubts?</p>
                   <div className={styles.buttonGroup}>

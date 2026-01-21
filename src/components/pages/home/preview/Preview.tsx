@@ -15,8 +15,9 @@ const Preview = () => {
     const ctx = gsap.context((self) => { 
       
       const sections = self.selector ? self.selector(".desktop-section") : [];
+      const lastSection = sections[sections.length - 1];
 
-      sections.forEach((section: HTMLElement) => {
+      sections.forEach((section: HTMLElement, index: number) => {
         const rightImg = section.querySelector(".right-image");
         const rightBtn = section.querySelector(".right-btn");
         const leftImg = section.querySelector(".left-image");

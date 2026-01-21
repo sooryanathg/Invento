@@ -66,7 +66,7 @@ export default function ContactInfo({ showElements, emailRef, phoneRef }: Contac
           visibility: showElements ? "visible" : "hidden",
         }}
       >
-        1234567890
+        9074636412
       </p>
     </>
   );
