@@ -29,58 +29,119 @@ const HeroSection: React.FC = () => {
 
     lockScroll();
 
-    const t1 = gsap.timeline({
-      onComplete: () => {
-        unlockScroll();
+    const ctx = gsap.context(() => {
+      const scrollTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=200%",
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          invalidateOnRefresh: true,
+        },
+      });
+      scrollTl.scrollTrigger?.disable();
 
-        const scrollTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            scrub: 0.8,
-            pin: true,
-            pinSpacing: true,
+      scrollTl
+        .fromTo(
+          inventoRef.current,
+          { scale: 1.1, ease: "none" },
+          { scale: 0.75, ease: "none" },
+          0,
+        )
+        .fromTo(
+          logoRef.current,
+          { rotateZ: 10, ease: "none" },
+          { rotateZ: 0, ease: "none" },
+          0,
+        )
+        .fromTo(
+          dateRef.current,
+          { opacity: 0, y: 100 },
+          { opacity: 1, y: 0, duration: 1 },
+          0,
+        )
+        .fromTo(heroRef.current, { y: 345 }, { y: 800, duration: 1 }, "<")
+
+        .to(inventoRef.current, {
+          y: -600,
+          opacity: 0,
+          scale: 0.2,
+          duration: 1,
+          ease: "sine.in",
+        })
+        .to(
+          logoRef.current,
+          {
+            y: -400,
+            opacity: 0,
+            rotationZ: 0,
+            duration: 1,
+            ease: "sine.in",
           },
-        });
+          "<",
+        )
+        .to(
+          dateRef.current,
+          { opacity: 0, y: 500, duration: 1, ease: "sine.in" },
+          "<",
+        )
+        .to(
+          heroRef.current,
+          { y: 1200, opacity: 0, duration: 1, ease: "sine.in" },
+          "<",
+        )
+        .to(
+          [leftImage.current, rightImage.current],
+          {
+            y: 1000,
+            opacity: 0,
+            duration: 1,
+            ease: "sine.in",
+          },
+          "<",
+        );
 
-        scrollTl
-          .to(inventoRef.current, { scale: 0.75, ease: "none" })
-          .fromTo(
-            dateRef.current,
-            { opacity: 0, y: 100 },
-            { opacity: 1, y: 0, duration: 1 },
-            0,
-          )
-          .to(logoRef.current, { rotateZ: 0, ease: "none" }, 0)
-          .fromTo(heroRef.current, { y: 345 }, { y: 800, duration: 1 }, 0);
+      const t1 = gsap.timeline({
+        onComplete: () => {
+          unlockScroll();
+          scrollTl.scrollTrigger?.enable();
+          ScrollTrigger.refresh();
+        },
+      });
 
-        ScrollTrigger.refresh();
-      },
-    });
-    t1.fromTo(
-      inventoRef.current,
-      { y: -600, opacity: 0, scale: 0.8 },
-      { y: 0, opacity: 1, scale: 1.1, duration: 1.5, ease: "power3.out" },
-    );
+      t1.fromTo(
+        inventoRef.current,
+        { y: -600, opacity: 0, scale: 0.8 },
+        { y: 0, opacity: 1, scale: 1.1, duration: 1.5, ease: "power3.out" },
+        0,
+      )
+        .fromTo(
+          [leftImage.current, rightImage.current],
+          { y: 500, opacity: 0.2 },
+          { y: 0, opacity: 1, duration: 2 },
+          "<",
+        )
+        .fromTo(
+          logoRef.current,
+          { y: 200, rotateZ: 55, opacity: 0.3, scale: 0.5 },
+          { y: 0, rotateZ: 10, opacity: 1, scale: 1, duration: 2 },
+          "<",
+        )
+        .fromTo(
+          heroRef.current,
+          { y: -100, scale: 1.5 },
+          { y: 345, scale: 1, duration: 1 },
+          "<",
+        );
+    }, sectionRef);
+    ScrollTrigger.refresh();
 
-    gsap.fromTo(
-      [leftImage.current, rightImage.current],
-      { y: 500, opacity: 0.2 },
-      { y: 0, opacity: 1, duration: 2 },
-    );
+    return () => ctx.revert();
+  }, []);
 
-    gsap.fromTo(
-      logoRef.current,
-      { y: 200, rotateZ: 55, opacity: 0.3, scale: 0.5 },
-      { y: 0, rotateZ: 10, opacity: 1, scale: 1, duration: 2 },
-    );
-
-    gsap.fromTo(
-      heroRef.current,
-      { y: -100, scale: 1.5 },
-      { y: 345, scale: 1, duration: 1 },
-    );
-
+  useEffect(() => {
     ScrollTrigger.refresh();
   }, []);
 
