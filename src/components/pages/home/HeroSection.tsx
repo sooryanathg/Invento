@@ -12,6 +12,7 @@ const HeroSection: React.FC = () => {
   const inventoRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const leftImage = useRef<HTMLDivElement>(null);
+  const middleImage = useRef<HTMLDivElement>(null);
   const rightImage = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLDivElement>(null);
@@ -62,7 +63,12 @@ const HeroSection: React.FC = () => {
           { opacity: 1, y: 0, duration: 1 },
           0,
         )
-        .fromTo(heroRef.current, { y: 345 }, { y: 800, duration: 1 }, "<")
+        .fromTo(
+          heroRef.current,
+          { y: () => (window.innerWidth < 768 ? 150 : 345) },
+          { y: 800, duration: 1 },
+          "<",
+        )
 
         .to(inventoRef.current, {
           y: -600,
@@ -93,7 +99,7 @@ const HeroSection: React.FC = () => {
           "<",
         )
         .to(
-          [leftImage.current, rightImage.current],
+          [leftImage.current, middleImage.current, rightImage.current],
           {
             y: 1000,
             opacity: 0,
@@ -118,7 +124,7 @@ const HeroSection: React.FC = () => {
         0,
       )
         .fromTo(
-          [leftImage.current, rightImage.current],
+          [leftImage.current, middleImage.current, rightImage.current],
           { y: 500, opacity: 0.2 },
           { y: 0, opacity: 1, duration: 2 },
           "<",
@@ -132,7 +138,11 @@ const HeroSection: React.FC = () => {
         .fromTo(
           heroRef.current,
           { y: -100, scale: 1.5 },
-          { y: 345, scale: 1, duration: 1 },
+          {
+            y: () => (window.innerWidth < 768 ? 150 : 345),
+            scale: 1,
+            duration: 1,
+          },
           "<",
         );
     }, sectionRef);
@@ -152,7 +162,7 @@ const HeroSection: React.FC = () => {
         className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
       >
         {/* Hero Image */}
-        <div ref={heroRef} className="absolute bottom-0 z-20">
+        <div ref={heroRef} className="absolute bottom-0 z-40">
           <Image
             src="/home/home-hero-fan.webp"
             alt="Fan Art"
@@ -170,6 +180,17 @@ const HeroSection: React.FC = () => {
             width={350}
             height={460}
             className="object-contain opacity-80 w-[200px] aspect-auto lg:w-[460px]"
+          />
+        </div>
+
+        {/* Middle Image */}
+        <div ref={middleImage} className="absolute -bottom-12 lg:hidden">
+          <Image
+            src="/home/middle-mobile.svg"
+            alt="Middle Visual"
+            width={350}
+            height={460}
+            className="object-contain opacity-80 w-[750px] aspect-auto"
           />
         </div>
 

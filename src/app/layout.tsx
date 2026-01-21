@@ -18,8 +18,8 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${urbanist.variable} ${flood.variable} ${akira.variable} antialiased`}
       >
-        <MenuPortal />
         <EventProvider>{children}</EventProvider>
+        <MenuPortal />
       </body>
     </html>
   );
