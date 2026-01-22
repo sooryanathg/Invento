@@ -3,7 +3,7 @@
 import Image from "next/image";
 import AboutText from "@/src/components/Text/heroSection";
 import Navbar from "@/src/components/ui/navbar/navbar";
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroSectionCard from "@/src/components/pages/about/Cards/heroSectionCard";
@@ -19,7 +19,7 @@ export default function HeroSection() {
   const navbarRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       !sectionRef.current ||
       !textRef.current ||
@@ -33,7 +33,6 @@ export default function HeroSection() {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          // adjust breakpoint as you like
           isMobile: "(max-width: 767px)",
           isDesktop: "(min-width: 768px)",
         },
