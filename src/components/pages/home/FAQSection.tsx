@@ -36,7 +36,8 @@ const faqItems = [
 ];
 
 export default function FAQSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const firstSpacerRef = useRef<HTMLDivElement>(null);
   const spacerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
@@ -47,7 +48,9 @@ export default function FAQSection() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const section = sectionRef.current;
     const container = containerRef.current;
+    const firstSpacer = firstSpacerRef.current;
     const spacer = spacerRef.current;
     const bg = bgRef.current;
     const topLeft = topLeftRef.current;
@@ -55,47 +58,84 @@ export default function FAQSection() {
     const title = titleRef.current;
     const table = tableRef.current;
 
-    if (!container || !spacer || !bg) return;
+    if (!section || !container || !spacer || !bg || !firstSpacer) return;
 
     const ctx = gsap.context(() => {
       // Initial states with transforms - only set if elements exist
-      if (bg) gsap.set(bg, { opacity: 0 });
+      // Section starts below screen and will slide up
+      if (section) gsap.set(section, { y: "100%" });
+      // Background is visible at full opacity
+      if (bg) gsap.set(bg, { opacity: 1 });
       if (topLeft) gsap.set(topLeft, { opacity: 0, x: -100 });
       if (bottomRight) gsap.set(bottomRight, { opacity: 0, x: 100, y: 100 });
       if (title) gsap.set(title, { opacity: 0, y: 100 });
       if (table) gsap.set(table, { opacity: 0, y: -100 });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: spacer,
-          start: "top center",
-          end: "bottom center",
-          scrub: 1.5,
-          invalidateOnRefresh: true,
-          onEnter: () => setIsVisible(true),
-          onLeaveBack: () => setIsVisible(false),
+      // Make sure section is visible for animation
+      if (section) gsap.set(section, { visibility: "visible" });
+
+      // Store timeline reference for reversing
+      let elementTl: gsap.core.Timeline | null = null;
+
+      // Time-based animation for elements (not scroll-based)
+      const animateElements = () => {
+        if (elementTl && elementTl.isActive()) return;
+        
+        elementTl = gsap.timeline({ delay: 1 });
+        
+        if (topLeft) elementTl.to(topLeft, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (bottomRight) elementTl.to(bottomRight, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (title) elementTl.to(title, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (table) elementTl.to(table, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+      };
+
+      // Reverse elements animation
+      const reverseElements = () => {
+        if (elementTl) {
+          elementTl.reverse();
+          elementTl = null;
+        }
+      };
+
+      // Section slides up immediately when preview section ends
+      ScrollTrigger.create({
+        trigger: firstSpacer || spacer,
+        start: "bottom top",
+        onEnter: () => {
+          setIsVisible(true);
+          // Immediately slide section up completely
+          if (section) {
+            gsap.to(section, { 
+              y: 0, 
+              duration: 1, 
+              ease: "power2.out",
+              onComplete: () => {
+                // Trigger element animations after slide completes
+                animateElements();
+              }
+            });
+          }
+        },
+        onLeaveBack: () => {
+          setIsVisible(false);
+          // Slide section back down
+          if (section) {
+            gsap.to(section, { y: "100%", duration: 1, ease: "power2.out" });
+          }
+          reverseElements();
         },
       });
-
-      // Background fades in gradually for smooth crossfade with Preview
-      if (bg) tl.to(bg, { opacity: 1, duration: 1.5, ease: "power2.out" }, 0);
-      
-      // Other elements animate after background starts fading in
-      if (topLeft) tl.to(topLeft, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0.3);
-      if (bottomRight) tl.to(bottomRight, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: "power2.out" }, 0.3);
-      if (title) tl.to(title, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0.3);
-      if (table) tl.to(table, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0.3);
-    }, container);
+    }, section);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <>
-      <div className="relative w-full h-[50vh] pointer-events-none" />
-      <div ref={spacerRef} className="relative w-full h-[400vh] pointer-events-none" />
+      <div ref={firstSpacerRef} className="relative w-full h-[1px] pointer-events-none" />
+      <div ref={spacerRef} className="relative w-full h-[200vh] pointer-events-none" />
 
-      <section className="fixed top-0 left-0 h-screen w-screen overflow-hidden z-20" style={{ display: isVisible ? "block" : "none" }}>
+      <section ref={sectionRef} className="fixed top-0 left-0 h-screen w-screen overflow-hidden z-20">
         <div ref={containerRef} className="absolute w-full h-full">
           <div
             ref={bgRef}

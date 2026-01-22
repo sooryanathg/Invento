@@ -62,7 +62,10 @@ export default function ContactSection() {
 
     const ctx = gsap.context(() => {
       // Initial states with transforms - only set if elements exist
-      if (bg) gsap.set(bg, { opacity: 0 });
+      // Section starts below screen and will slide up
+      if (section) gsap.set(section, { y: "100%" });
+      // Background is visible at full opacity
+      if (bg) gsap.set(bg, { opacity: 1 });
       if (logo) gsap.set(logo, { opacity: 0, x: 300 });
       if (bottomImg) gsap.set(bottomImg, { opacity: 0, y: 200 });
       if (address) gsap.set(address, { opacity: 0, x: 300 });
@@ -85,51 +88,145 @@ export default function ContactSection() {
         if (link) gsap.set(link, { opacity: 0, x: 300 });
       });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: spacer,
-          start: "top center",
-          end: "bottom center",
-          scrub: 2,
-          invalidateOnRefresh: true,
-          onEnter: () => setIsVisible(true),
-          onLeaveBack: () => setIsVisible(false),
+      // Make sure section is visible for animation
+      if (section) gsap.set(section, { visibility: "visible" });
+
+      // Store timeline reference for reversing
+      let elementTl: gsap.core.Timeline | null = null;
+      let isEntering = false;
+
+      // Reset elements to initial state
+      const resetElements = () => {
+        if (logo) gsap.set(logo, { opacity: 0, x: 300 });
+        if (bottomImg) gsap.set(bottomImg, { opacity: 0, y: 200 });
+        if (address) gsap.set(address, { opacity: 0, x: 300 });
+        if (header) gsap.set(header, { opacity: 0, y: -150 });
+        if (email) gsap.set(email, { opacity: 0, y: 50 });
+        if (phone) gsap.set(phone, { opacity: 0, y: 50 });
+        if (leftNavTitle) gsap.set(leftNavTitle, { opacity: 0, x: 300 });
+        if (rightNavTitle) gsap.set(rightNavTitle, { opacity: 0, x: 300 });
+        socialLinksRefs.current.forEach((link) => {
+          if (link) gsap.set(link, { opacity: 0, y: -150 });
+        });
+        leftNavLinksRefs.current.forEach((link) => {
+          if (link) gsap.set(link, { opacity: 0, x: 300 });
+        });
+        rightNavLinksRefs.current.forEach((link) => {
+          if (link) gsap.set(link, { opacity: 0, x: 300 });
+        });
+      };
+
+      // Time-based animation for elements (not scroll-based)
+      const animateElements = () => {
+        // Kill any existing timeline before creating new one
+        if (elementTl) {
+          elementTl.kill();
+          elementTl = null;
+        }
+        
+        // Reset elements to initial state first
+        resetElements();
+        
+        elementTl = gsap.timeline({ delay: 1 });
+        
+        if (logo) elementTl.to(logo, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (bottomImg) elementTl.to(bottomImg, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (address) elementTl.to(address, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (header) elementTl.to(header, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (email) elementTl.to(email, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (phone) elementTl.to(phone, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (leftNavTitle) elementTl.to(leftNavTitle, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0);
+        if (rightNavTitle) elementTl.to(rightNavTitle, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0);
+
+        // Social links animate
+        socialLinksRefs.current.forEach((link) => {
+          if (link) {
+            elementTl!.to(link, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0);
+          }
+        });
+
+        // Left nav links animate
+        leftNavLinksRefs.current.forEach((link) => {
+          if (link) {
+            elementTl!.to(link, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0);
+          }
+        });
+
+        // Right nav links animate
+        rightNavLinksRefs.current.forEach((link) => {
+          if (link) {
+            elementTl!.to(link, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, 0);
+          }
+        });
+      };
+
+      // Reverse elements animation
+      const reverseElements = () => {
+        if (elementTl && !isEntering) {
+          elementTl.reverse();
+          elementTl = null;
+        }
+      };
+
+      // Section slides up immediately when FAQ section ends
+      ScrollTrigger.create({
+        trigger: spacer,
+        start: "top top",
+        onEnter: () => {
+          setIsVisible(true);
+          isEntering = true;
+          // Immediately slide section up completely
+          if (section) {
+            gsap.to(section, { 
+              y: 0, 
+              duration: 1, 
+              ease: "power2.out",
+              onComplete: () => {
+                // Trigger element animations after slide completes
+                animateElements();
+                setTimeout(() => { isEntering = false; }, 2500);
+              }
+            });
+          }
+          // Immediately reset and clear any existing timeline
+          if (elementTl) {
+            elementTl.kill();
+            elementTl = null;
+          }
+          resetElements();
         },
-      });
-
-      // Background appears first with much slower, smoother fade
-      if (bg) tl.to(bg, { opacity: 1, duration: 3.5, ease: "sine.out" }, 0);
-      
-      // All other elements animate after a delay (after background has mostly faded in)
-      const elementDelay = 2;
-      if (logo) tl.to(logo, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-      if (bottomImg) tl.to(bottomImg, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-      if (address) tl.to(address, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-      if (header) tl.to(header, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-      if (email) tl.to(email, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-      if (phone) tl.to(phone, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-      if (leftNavTitle) tl.to(leftNavTitle, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-      if (rightNavTitle) tl.to(rightNavTitle, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-
-      // Social links animate after delay
-      socialLinksRefs.current.forEach((link) => {
-        if (link) {
-          tl.to(link, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-        }
-      });
-
-      // Left nav links animate after delay
-      leftNavLinksRefs.current.forEach((link) => {
-        if (link) {
-          tl.to(link, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-        }
-      });
-
-      // Right nav links animate after delay
-      rightNavLinksRefs.current.forEach((link) => {
-        if (link) {
-          tl.to(link, { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }, elementDelay);
-        }
+        onEnterBack: () => {
+          setIsVisible(true);
+          isEntering = true;
+          // Immediately slide section up completely
+          if (section) {
+            gsap.to(section, { 
+              y: 0, 
+              duration: 1, 
+              ease: "power2.out",
+              onComplete: () => {
+                // Trigger element animations after slide completes
+                animateElements();
+                setTimeout(() => { isEntering = false; }, 2500);
+              }
+            });
+          }
+          // Immediately reset and clear any existing timeline
+          if (elementTl) {
+            elementTl.kill();
+            elementTl = null;
+          }
+          resetElements();
+        },
+        onLeaveBack: () => {
+          setIsVisible(false);
+          isEntering = false;
+          // Slide section back down
+          if (section) {
+            gsap.to(section, { y: "100%", duration: 1, ease: "power2.out" });
+          }
+          reverseElements();
+        },
       });
     }, section);
 
@@ -138,12 +235,11 @@ export default function ContactSection() {
 
   return (
     <>
-      <div ref={spacerRef} className="relative w-full h-[400vh] pointer-events-none" />
+      <div ref={spacerRef} className="relative w-full h-[200vh] pointer-events-none" />
 
       <section
         ref={sectionRef}
-        className="fixed top-0 left-0 h-screen w-screen overflow-hidden bg-white z-40"
-        style={{ display: isVisible ? "block" : "none" }}
+        className="fixed top-0 left-0 h-screen w-screen overflow-hidden z-40"
       >
         <div ref={containerRef} className="absolute w-full h-full">
           <ContactBackground 
