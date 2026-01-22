@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -16,7 +16,7 @@ export default function SecondSection() {
   const bottomRightRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -48,7 +48,7 @@ export default function SecondSection() {
           svgRef.current,
           {
             opacity: 0.5,
-            duration: 2,
+            duration: 1,
             delay: 1.2,
             ease: "circ.inOut",
           },
@@ -100,7 +100,7 @@ export default function SecondSection() {
         />
         <div
           ref={svgRef}
-          className="hidden lg:block absolute inset-0 z-0 pointer-events-none"
+          className="block absolute inset-0 z-0 pointer-events-none"
         >
           <svg
             className="w-full h-full opacity-40"
@@ -113,7 +113,7 @@ export default function SecondSection() {
               r="50"
               fill="none"
               stroke="white"
-              strokeWidth="0.09"
+              strokeWidth="0.15"
             />
 
             <path
