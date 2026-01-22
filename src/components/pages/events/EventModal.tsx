@@ -102,7 +102,7 @@ export default function EventModal({
                 <span className="text-red-500 font-bold uppercase">
                   Queries:
                 </span>{" "}
-                98098 21355
+                 {event.contact}
               </div>
             </div>
 
