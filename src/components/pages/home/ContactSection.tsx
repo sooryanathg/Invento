@@ -13,17 +13,15 @@ import NavigationLinks from "./contact/NavigationLinks";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const leftNavLinks = [
-  { text: "The team", href: "#" },
-  { text: "Events", href: "#" },
-  { text: "FAQ", href: "#" },
-  { text: "Contact", href: "#" },
+  { text: "Team Invento26", href: "/about" },
+  { text: "GEC Palakkad", href: "https://maps.app.goo.gl/dn4B5Sjjsw1mdPPt8" },
 ];
 
 const rightNavLinks = [
-  { text: "The team", href: "#" },
-  { text: "Events", href: "#" },
-  { text: "FAQ", href: "#" },
-  { text: "Contact", href: "#" },
+  { text: "Register", href: "https://app.makemypass.com/event/day-pass" },
+  { text: "Saptha", href: "https://www.instagram.com/sapthagecpalakkad?igsh=d3J6cHE1b3Y5ZDVj" },
+  { text: "Taksathi", href: "https://www.instagram.com/gecfashionclub?igsh=cjg0MHB3Mjd4cHly" },
+  { text: "Natya", href: "https://www.instagram.com/_nh_13_?igsh=NmJmOHdkNmwxcGNz" },
 ];
 
 export default function ContactSection() {
