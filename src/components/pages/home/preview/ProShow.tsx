@@ -11,7 +11,7 @@ const ProShow: React.FC = () => {
         <section className="relative w-full min-h-screen flex flex-col items-center justify-start text-white pb-20">
             <div className="absolute inset-0 -z-20">
                 <Image
-                    src={"/home/preview/red-blur.png"}
+                    src={"/home/preview/red-blur.webp"}
                     alt="Background"
                     fill
                     className="object-cover"

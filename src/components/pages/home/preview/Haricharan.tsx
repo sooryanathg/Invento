@@ -5,7 +5,7 @@ const Haricharan: React.FC = () => (
     <>
         <div className="-mt-8 lg:-mt-24 relative -z-20 w-full">
             <Image
-                src={"/home/preview/haricharan.png"}
+                src={"/home/preview/haricharan.webp"}
                 width={1200}
                 height={600}
                 alt="fejo 1"

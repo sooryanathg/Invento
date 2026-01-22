@@ -29,8 +29,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
   useEffect(() => {
     const checkImages = () => {
       const images = document.querySelectorAll("img");
-      let loadedCount = 0;
-      let totalImages = images.length;
+      const totalImages = images.length;
 
       if (totalImages === 0) {
         // No images found, check again after a delay in case content is still loading
@@ -63,7 +62,8 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
   // Hide loading screen when both conditions are met
   useEffect(() => {
     if (imagesLoaded && minTimeElapsed) {
-      setIsLoading(false);
+      const timer = setTimeout(() => setIsLoading(false), 0);
+      return () => clearTimeout(timer);
     }
   }, [imagesLoaded, minTimeElapsed]);
 
