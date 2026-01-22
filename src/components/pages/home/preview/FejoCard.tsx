@@ -4,7 +4,7 @@ import Link from "next/link";
 const FejoCard: React.FC = () => (
     <div className="relative -mt-24 w-full scale-105 origin-center">
         <Image
-            src={"/home/preview/fejo-card.png"}
+            src={"/home/preview/fejo-card.webp"}
             alt="Proshow bg"
             width={1500}
             height={300}

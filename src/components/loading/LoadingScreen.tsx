@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FC } from "react";
 import { akira } from "@/src/lib/fonts";
+import Image from "next/image";
 
 import "./home.css";
 
@@ -103,7 +104,15 @@ export const RotatingCanvasText: FC<RotatingCanvasTextProps> = ({
 
       <canvas ref={canvasRef} className="animate-spin-slow" />
 
-      <img src="/logo.png" alt="logo" className="absolute w-28 h-28" style={{ top: "140px" }} />
+      <Image
+        src="/logo.png"
+        alt="logo"
+        width={112}
+        height={112}
+        className="absolute w-28 h-28"
+        style={{ top: "140px" }}
+      />
+
     </div>
   );
 };

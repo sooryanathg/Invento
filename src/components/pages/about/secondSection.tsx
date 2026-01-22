@@ -87,7 +87,7 @@ export default function SecondSection() {
     >
       <div className="relative w-full h-full">
         <Image
-          src={"/about/second.png"}
+          src={"/about/second.webp"}
           fill
           className="hidden lg:block object-cover"
           alt="Second section"

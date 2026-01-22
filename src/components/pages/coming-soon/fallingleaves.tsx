@@ -28,51 +28,52 @@ export default function FallingLeaves() {
   const [leaves, setLeaves] = useState<Leaf[]>([])
 
   useEffect(() => {
-  const isMobile = window.innerWidth < 640
+    const isMobile = window.innerWidth < 640
 
-  const generated: Leaf[] = Array.from({ length: 42 }).map(() => {
-    const img =
-      LEAF_IMAGES[Math.floor(Math.random() * LEAF_IMAGES.length)]
+    const generated: Leaf[] = Array.from({ length: 42 }).map(() => {
+      const img =
+        LEAF_IMAGES[Math.floor(Math.random() * LEAF_IMAGES.length)]
 
-    const isPetal = img.includes("sakura") // renamed logic mentally 🌸
+      const isPetal = img.includes("sakura") // renamed logic mentally 🌸
 
-    return {
-      img,
-      left: Math.random() * 60,
+      return {
+        img,
+        left: Math.random() * 60,
 
-      // 👇 THIS is the magic
-      size: isPetal
-        ? isMobile
-          ? 6 + Math.random() * 8    // 🌸 smaller petals on mobile
-          : 10 + Math.random() * 14  // 🌸 normal on desktop
-        : isMobile
-          ? 12 + Math.random() * 10
-          : 18 + Math.random() * 20,
+        // 👇 THIS is the magic
+        size: isPetal
+          ? isMobile
+            ? 6 + Math.random() * 8    // 🌸 smaller petals on mobile
+            : 10 + Math.random() * 14  // 🌸 normal on desktop
+          : isMobile
+            ? 12 + Math.random() * 10
+            : 18 + Math.random() * 20,
 
-      delay: Math.random() * 8,
+        delay: Math.random() * 8,
 
-      duration: isPetal
-        ? 18 + Math.random() * 14
-        : 14 + Math.random() * 10,
+        duration: isPetal
+          ? 18 + Math.random() * 14
+          : 14 + Math.random() * 10,
 
-      drift: isPetal
-        ? isMobile
-          ? 20 + Math.random() * 40
-          : 40 + Math.random() * 80
-        : 80 + Math.random() * 140,
+        drift: isPetal
+          ? isMobile
+            ? 20 + Math.random() * 40
+            : 40 + Math.random() * 80
+          : 80 + Math.random() * 140,
 
-      rotate: isPetal
-        ? 200 + Math.random() * 260
-        : 120 + Math.random() * 180,
+        rotate: isPetal
+          ? 200 + Math.random() * 260
+          : 120 + Math.random() * 180,
 
-      tilt: isPetal
-        ? 40 + Math.random() * 40
-        : 10 + Math.random() * 20,
-    }
-  })
+        tilt: isPetal
+          ? 40 + Math.random() * 40
+          : 10 + Math.random() * 20,
+      }
+    })
 
-  setLeaves(generated)
-}, [])
+    // Wrap in setTimeout to avoid synchronous setState warning
+    setTimeout(() => setLeaves(generated), 0)
+  }, [])
 
 
   if (!leaves.length) return null
@@ -92,11 +93,14 @@ export default function FallingLeaves() {
             width: `${leaf.size}px`,
             animationDelay: `${leaf.delay}s`,
             animationDuration: `${leaf.duration}s`,
-            ["--drift" as any]: `${leaf.drift}px`,
-            ["--rotate" as any]: `${leaf.rotate}deg`,
-            ["--tilt" as any]: `${leaf.tilt}deg`,
+            ...({
+              "--drift": `${leaf.drift}px`,
+              "--rotate": `${leaf.rotate}deg`,
+              "--tilt": `${leaf.tilt}deg`,
+            } as React.CSSProperties),
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={leaf.img} alt="" className="w-full h-auto opacity-90" />
         </span>
       ))}
