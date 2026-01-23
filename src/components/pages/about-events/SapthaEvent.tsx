@@ -5,6 +5,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SapthaEventDetails from "./SapthaEventDetails";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ const SapthaEvent = () => {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const natyaRef = useRef<HTMLDivElement>(null);
   const taksatiRef = useRef<HTMLDivElement>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -31,7 +33,7 @@ const SapthaEvent = () => {
         y: 100,
         scale: 0.5,
         autoAlpha: 0,
-        duration: 1.5, // Equalized to 1.5s
+        duration: 1.5,
         ease: "power3.out",
       });
 
@@ -40,7 +42,7 @@ const SapthaEvent = () => {
         y: 100,
         scale: 0.5, 
         autoAlpha: 0,
-        duration: 1.5, // Equalized to 1.5s
+        duration: 1.5, 
         ease: "power3.out", 
       });
 
@@ -48,8 +50,8 @@ const SapthaEvent = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=400%", // Increased distance for Posters animation
-          scrub: 1, // Smooth interaction (1s catch-up)
+          end: "+=600%", // Increased distance for Posters + Curtain animation
+          scrub: 1, 
           pin: true,
         },
       });
@@ -66,7 +68,6 @@ const SapthaEvent = () => {
       );
 
       // 2. Lady image fades out and moves up slightly
-      // Using formTo ensures it always returns to opacity 1/y:0 when scrolling back
       tl.fromTo(
         ladyRef.current,
         { autoAlpha: 1, y: 0 },
@@ -84,7 +85,7 @@ const SapthaEvent = () => {
         { y: 0, scale: 1 }, 
         {
           y: -530, 
-          scale: 0.8, // Re-added shrinking effect for immersion
+          scale: 0.8, 
           duration: 1,
         },
         0
@@ -104,7 +105,7 @@ const SapthaEvent = () => {
       tl.to(titleRef.current, {
          y: -2000, 
          scale: 0.5,
-         duration: 0.5, // Speeding up to very fast
+         duration: 0.5, 
          ease: "power2.in"
       }, ">");
 
@@ -112,7 +113,7 @@ const SapthaEvent = () => {
       tl.to(descriptionRef.current, {
          y: -1000,
          autoAlpha: 0,
-         duration: 0.5, // Speeding up to very fast
+         duration: 0.5, 
          ease: "power2.in"
       }, "<");
 
@@ -142,12 +143,20 @@ const SapthaEvent = () => {
          );
       }
 
+      // 8. Curtain Effect: Details Section slides up
+      if (detailsRef.current) {
+          tl.to(detailsRef.current, {
+              y: "0%", // Slide up to cover screen
+              duration: 1.5,
+              ease: "power2.inOut"
+          }, ">0.5"); 
+      }
+
     },
     { scope: containerRef }
   );
 
   return (
-    // Outer container with black background for the "fade to black" effect
     <div ref={containerRef} className="h-screen w-full relative bg-black overflow-hidden">
       
       {/* Background Image */}
@@ -195,7 +204,7 @@ const SapthaEvent = () => {
       
       {/* Third Section: Posters */}
       <div className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none">
-           {/* Natya Poster - Increased Size */}
+           {/* Natya Poster */}
            <div ref={natyaRef} className="absolute left-0 md:left-[5%] top-[10%] w-[90vw] h-[70vh] md:w-[90vw] md:h-[90vh]">
                <Image 
                  src="/about-events/saptha/natya-poster.webp"
@@ -205,7 +214,7 @@ const SapthaEvent = () => {
                />
            </div>
 
-           {/* Taksati Poster - Increased Size */}
+           {/* Taksati Poster */}
            <div ref={taksatiRef} className="absolute right-0 md:right-[4%] top-[12%] w-[90vw] h-[70vh] md:w-[90vw] md:h-[90vh]">
                <Image 
                  src="/about-events/saptha/taksati-poster.webp"
@@ -214,6 +223,14 @@ const SapthaEvent = () => {
                  className="object-contain"
                />
            </div>
+      </div>
+
+      {/* Fourth Section: Event Details (Curtain) */}
+      <div 
+        ref={detailsRef} 
+        className="absolute inset-0 z-50 translate-y-[100%]" // Start off-screen down
+      >
+        <SapthaEventDetails />
       </div>
 
     </div>
