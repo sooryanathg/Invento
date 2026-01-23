@@ -109,14 +109,13 @@ export const RotatingCanvasText: FC<RotatingCanvasTextProps> = ({
       <canvas ref={canvasRef} className="animate-spin-slow" />
 
       <Image
-        src="/logo.png"
+        src="/logo-filled.svg"
         alt="logo"
         width={112}
         height={112}
         className="absolute w-28 h-28"
         style={{ top: "140px" }}
       />
-
     </div>
   );
 };
