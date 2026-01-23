@@ -69,12 +69,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
 
   return (
     <>
-      {isLoading && (
-        <LoadingScreen
-          loadingDelay={loadingDelay}
-          onComplete={() => setIsLoading(false)}
-        />
-      )}
+      {isLoading && <LoadingScreen progress={100} />}
       {!isLoading && children}
     </>
   );
