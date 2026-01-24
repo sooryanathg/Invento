@@ -46,9 +46,9 @@ const Preview = () => {
 
           // Animate right images (can have right-btn or left-btn)
           if (rightImg) {
-            const elementsToAnimate = rightBtn ? [rightImg, rightBtn] : [rightImg];
+            // Animate only the image
             gsap.fromTo(
-              elementsToAnimate,
+              rightImg,
               { xPercent: 100, autoAlpha: 1 },
               {
                 xPercent: 0,
@@ -64,6 +64,10 @@ const Preview = () => {
                 },
               },
             );
+            // Keep button visible and in place (don't animate it)
+            if (rightBtn) {
+              gsap.set(rightBtn, { xPercent: 0, autoAlpha: 1 });
+            }
           }
 
           // Animate left images (must have left-btn)
@@ -153,22 +157,22 @@ const Preview = () => {
           </Link>
         </section>
 
-        <section className="min-h-screen relative desktop-section">
+        <section className="min-h-screen relative desktop-section" style={{ zIndex: 10, minHeight: 'calc(100vh + 120px)', paddingBottom: '120px' }}>
           <Link scroll={false} href="/coming-soon">
             <Image
               src={generalWeb}
               width={1200}
               height={300}
               alt="General"
-              className="absolute right-0 right-image"
+              className="absolute top-10 right-0 right-image z-10"
             />
           </Link>
 
-          <div className="absolute flex -bottom-18 w-full px-42 justify-end">
+          <div className="absolute flex bottom-0 w-full px-24 justify-end" style={{ zIndex: 100 }}>
             <Link
               scroll={false}
               href="/coming-soon"
-              className="bg-[#A41F22] p-3 font-akira text-white left-btn"
+              className="bg-[#A41F22] p-3 font-akira text-white right-btn"
             >
               KNOW MORE
             </Link>
