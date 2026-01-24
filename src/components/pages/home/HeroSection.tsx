@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProShow from "./preview/ProShow";
+import { usePathname, useSearchParams } from "next/navigation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,16 +20,37 @@ const HeroSection: React.FC = () => {
   const dateRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
 
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const scrollToHash = () => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const el = document.querySelector(hash);
+    if (!el) return;
+
+    const extraScroll = 150;
+    const y = el.getBoundingClientRect().top + window.scrollY + extraScroll;
+
+    window.heroScrollTrigger?.disable();
+
+    gsap.to(window, {
+      scrollTo: y,
+      duration: 0.6,
+      ease: "power2.out",
+      onComplete: () => {
+        ScrollTrigger.refresh();
+      },
+    });
+  };
+
   useEffect(() => {
+    scrollToHash();
+
     const cameFromHash =
       typeof window !== "undefined" &&
       (window.location.hash === "#faq" || window.location.hash === "#contact");
-
-    let pendingHashScroll = false;
-
-    if (cameFromHash) {
-      pendingHashScroll = true;
-    }
 
     const lockScroll = () => {
       document.body.style.overflow = "hidden";
@@ -135,72 +157,60 @@ const HeroSection: React.FC = () => {
           "-=1",
         );
 
-      const t1 = gsap.timeline({
-        onComplete: () => {
-          unlockScroll();
+      window.heroScrollTrigger = scrollTl.scrollTrigger;
 
-          if (!cameFromHash) {
+      if (!cameFromHash) {
+        const t1 = gsap.timeline({
+          onComplete: () => {
+            unlockScroll();
             scrollTl.scrollTrigger?.enable();
             ScrollTrigger.refresh();
-          }
-        },
-      });
-
-      if (pendingHashScroll) {
-        window.heroScrollTrigger = scrollTl.scrollTrigger;
-        const el = document.querySelector(window.location.hash);
-        if (el) {
-          const extraScroll = 150;
-          const y =
-            el.getBoundingClientRect().top + window.scrollY + extraScroll;
-
-          // Disable hero scroll trigger BEFORE jumping
-          t1.scrollTrigger?.disable();
-
-          gsap.to(window, {
-            scrollTo: y,
-            duration: 0.6,
-            ease: "power2.out",
-            onComplete: () => {
-              ScrollTrigger.refresh();
-              t1.scrollTrigger?.enable();
-            },
-          });
-        }
-      }
-
-      t1.fromTo(
-        inventoRef.current,
-        { y: -600, opacity: 0, scale: 0.8 },
-        { y: 0, opacity: 1, scale: 1.1, duration: 1.5, ease: "power3.out" },
-        0,
-      )
-        .fromTo(
-          [leftImage.current, middleImage.current, rightImage.current],
-          { y: 500, opacity: 0.2 },
-          { y: 0, opacity: 1, duration: 2 },
-          "<",
-        )
-        .fromTo(
-          logoRef.current,
-          { y: 200, rotateZ: 55, opacity: 0.3, scale: 0.5 },
-          { y: 0, rotateZ: 10, opacity: 1, scale: 1, duration: 2 },
-          "<",
-        )
-        .fromTo(
-          heroRef.current,
-          { y: -100, scale: 1.5 },
-          {
-            y: () => (window.innerWidth < 768 ? 150 : 345),
-            scale: 1,
-            duration: 1,
           },
-          "<",
-        );
+        });
+
+        t1.fromTo(
+          inventoRef.current,
+          { y: -600, opacity: 0, scale: 0.8 },
+          { y: 0, opacity: 1, scale: 1.1, duration: 1.5, ease: "power3.out" },
+          0,
+        )
+          .fromTo(
+            [leftImage.current, middleImage.current, rightImage.current],
+            { y: 500, opacity: 0.2 },
+            { y: 0, opacity: 1, duration: 2 },
+            "<",
+          )
+          .fromTo(
+            logoRef.current,
+            { y: 200, rotateZ: 55, opacity: 0.3, scale: 0.5 },
+            { y: 0, rotateZ: 10, opacity: 1, scale: 1, duration: 2 },
+            "<",
+          )
+          .fromTo(
+            heroRef.current,
+            { y: -100, scale: 1.5 },
+            {
+              y: () => (window.innerWidth < 768 ? 150 : 345),
+              scale: 1,
+              duration: 1,
+            },
+            "<",
+          );
+      } else {
+        unlockScroll();
+      }
     }, containerRef);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+    };
   }, []);
+
+  useEffect(() => {
+    if (window.location.hash) {
+      scrollToHash();
+    }
+  }, [pathname, searchParams]);
 
   return (
     <div
