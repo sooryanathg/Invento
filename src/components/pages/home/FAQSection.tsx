@@ -164,7 +164,7 @@ export default function FAQSection() {
       <div
         id="faq"
         ref={spacerRef}
-        className="relative w-full h-[200vh] pointer-events-none"
+        className="relative w-full h-[300vh] pointer-events-none"
       />
 
       <section
