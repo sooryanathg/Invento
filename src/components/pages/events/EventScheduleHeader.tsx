@@ -12,7 +12,7 @@ export default function EventScheduleHeader({
 }) {
   // ---- constants ----
   const days: (1 | 2 | 3)[] = [1, 2, 3]
-  const MIN_SWIPE_DISTANCE = 1000
+  const MIN_SWIPE_DISTANCE = 120
 
   // ---- refs ----
   const touchStartX = useRef<number | null>(null)
