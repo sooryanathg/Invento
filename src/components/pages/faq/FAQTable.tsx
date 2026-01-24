@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./FAQTable.module.css";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
+}
 
 interface FAQItem {
   id: number;
@@ -31,6 +38,23 @@ export default function FAQTable({ items }: FAQTableProps) {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const handleContactClick = () => {
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: {
+          y: contactSection,
+          offsetY: 0,
+        },
+        ease: "power3.out",
+        onComplete: () => {
+          ScrollTrigger.refresh();
+        },
+      });
+    }
+  };
+
   return (
     <div className={styles.container}>
       {items.map((item) => (
@@ -44,7 +68,12 @@ export default function FAQTable({ items }: FAQTableProps) {
                 <div className={styles.doubtText}>
                   <p>Still have any doubts?</p>
                   <div className={styles.buttonGroup}>
-                    <button className={styles.btnContact}>Contact us</button>
+                    <button 
+                      className={styles.btnContact}
+                      onClick={handleContactClick}
+                    >
+                      Contact us
+                    </button>
                   </div>
                 </div>
               )}

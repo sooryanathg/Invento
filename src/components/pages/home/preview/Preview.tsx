@@ -23,57 +23,139 @@ const Preview = () => {
 
   useGSAP(
     () => {
-      const sections = gsap.utils.toArray(
-        ".desktop-section",
-        mainRef.current,
-      ) as HTMLElement[];
+      // Wait for DOM to be ready and images to load
+      const initAnimations = () => {
+        if (!mainRef.current) return;
 
-      sections.forEach((section) => {
-        const rightImg = section.querySelector(".right-image");
-        const rightBtn = section.querySelector(".right-btn");
-        const leftImg = section.querySelector(".left-image");
-        const leftBtn = section.querySelector(".left-btn");
+        const sections = gsap.utils.toArray(
+          ".desktop-section",
+          mainRef.current,
+        ) as HTMLElement[];
 
-        if (rightImg) {
-          gsap.fromTo(
-            [rightImg, rightBtn],
-            { xPercent: 100, autoAlpha: 1 },
-            {
-              xPercent: 0,
-              autoAlpha: 1,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: section,
-                start: "top center",
-                end: "bottom center",
-                scrub: 1,
-                invalidateOnRefresh: true,
-              },
-            },
-          );
+        if (sections.length === 0) {
+          // Retry if sections aren't ready yet
+          setTimeout(initAnimations, 100);
+          return;
         }
 
-        if (leftImg) {
-          gsap.fromTo(
-            [leftImg, leftBtn],
-            { xPercent: -100, autoAlpha: 0 },
-            {
-              xPercent: 0,
-              autoAlpha: 1,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: section,
-                start: "top center",
-                end: "bottom center",
-                scrub: 1,
-                invalidateOnRefresh: true,
+        sections.forEach((section) => {
+          const rightImg = section.querySelector(".right-image");
+          const rightBtn = section.querySelector(".right-btn");
+          const leftImg = section.querySelector(".left-image");
+          const leftBtn = section.querySelector(".left-btn");
+
+          // Animate right images (can have right-btn or left-btn)
+          if (rightImg) {
+            // Animate only the image
+            gsap.fromTo(
+              rightImg,
+              { xPercent: 100, autoAlpha: 1 },
+              {
+                xPercent: 0,
+                autoAlpha: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: section,
+                  start: "top center",
+                  end: "bottom center",
+                  scrub: 1,
+                  invalidateOnRefresh: true,
+                  refreshPriority: -1,
+                },
               },
-            },
-          );
+            );
+            // Keep button visible and in place (don't animate it)
+            if (rightBtn) {
+              gsap.set(rightBtn, { xPercent: 0, autoAlpha: 1 });
+            }
+          }
+
+          // Animate left images (must have left-btn)
+          if (leftImg && leftBtn) {
+            gsap.fromTo(
+              [leftImg, leftBtn],
+              { xPercent: -100, autoAlpha: 0 },
+              {
+                xPercent: 0,
+                autoAlpha: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: section,
+                  start: "top center",
+                  end: "bottom center",
+                  scrub: 1,
+                  invalidateOnRefresh: true,
+                  refreshPriority: -1,
+                },
+              },
+            );
+          }
+        });
+
+        // Mobile animations
+        const mobileRightImages = mainRef.current?.querySelectorAll(".right-image-mobile");
+        const mobileLeftImages = mainRef.current?.querySelectorAll(".left-image-mobile");
+
+        if (mobileRightImages && mobileRightImages.length > 0) {
+          mobileRightImages.forEach((img) => {
+            gsap.fromTo(
+              img,
+              { xPercent: 100, autoAlpha: 0 },
+              {
+                xPercent: 0,
+                autoAlpha: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: img,
+                  start: "top 80%",
+                  end: "top 20%",
+                  scrub: 1,
+                  invalidateOnRefresh: true,
+                  refreshPriority: -1,
+                },
+              },
+            );
+          });
         }
-      });
+
+        if (mobileLeftImages && mobileLeftImages.length > 0) {
+          mobileLeftImages.forEach((img) => {
+            gsap.fromTo(
+              img,
+              { xPercent: -100, autoAlpha: 0 },
+              {
+                xPercent: 0,
+                autoAlpha: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: img,
+                  start: "top 80%",
+                  end: "top 20%",
+                  scrub: 1,
+                  invalidateOnRefresh: true,
+                  refreshPriority: -1,
+                },
+              },
+            );
+          });
+        }
+
+        // Refresh ScrollTrigger after animations are set up
+        ScrollTrigger.refresh();
+      };
+
+      // Initialize after a small delay to ensure DOM is ready
+      if (typeof window !== "undefined") {
+        if (document.readyState === "complete") {
+          setTimeout(initAnimations, 100);
+        } else {
+          window.addEventListener("load", () => {
+            setTimeout(initAnimations, 100);
+          });
+        }
+      }
     },
-    { scope: mainRef },
+    { scope: mainRef, dependencies: [] },
   );
 
   return (
@@ -121,18 +203,18 @@ const Preview = () => {
           </Link>
         </section>
 
-        <section className="min-h-screen relative desktop-section">
+        <section className="min-h-screen relative desktop-section" style={{ zIndex: 10, minHeight: 'calc(100vh + 120px)', paddingBottom: '120px' }}>
           <Link scroll={false} href="/coming-soon">
             <Image
               src={generalWeb}
               width={1200}
               height={300}
               alt="General"
-              className="absolute right-0 right-image"
+              className="absolute top-10 right-0 right-image z-10"
             />
           </Link>
 
-          <div className="absolute flex -bottom-18 w-full px-42 justify-end">
+          <div className="absolute flex bottom-0 w-full px-24 justify-end" style={{ zIndex: 100 }}>
             <Link
               href="/about-events?category=general"
               className="bg-[#A41F22] p-3 font-akira text-white left-btn"
@@ -155,10 +237,17 @@ const Preview = () => {
               className="right-image-mobile"
             />
           </Link>
+          <Link
+            scroll={false}
+            href="/coming-soon"
+            className="bg-[#A41F22] px-3 py-2 text-sm font-akira text-white"
+          >
+            KNOW MORE
+          </Link>
         </div>
 
-        <div className="w-full flex justify-start">
-          <Link href="/about-events?category=technical">
+        <div className="w-full flex flex-col items-start gap-4 px-4">
+          <Link scroll={false} href="/coming-soon">
             <Image
               src={technicalMobile}
               width={330}
@@ -167,10 +256,17 @@ const Preview = () => {
               className="left-image-mobile"
             />
           </Link>
+          <Link
+            scroll={false}
+            href="/coming-soon"
+            className="bg-[#A41F22] px-3 py-2 text-sm font-akira text-white"
+          >
+            KNOW MORE
+          </Link>
         </div>
 
-        <div className="w-full flex justify-end">
-          <Link href="/about-events?category=general">
+        <div className="w-full flex flex-col items-end gap-4 px-4">
+          <Link scroll={false} href="/coming-soon">
             <Image
               src={generalMobile}
               width={330}
@@ -178,6 +274,13 @@ const Preview = () => {
               alt=""
               className="right-image-mobile"
             />
+          </Link>
+          <Link
+            scroll={false}
+            href="/coming-soon"
+            className="bg-[#A41F22] px-3 py-2 text-sm font-akira text-white"
+          >
+            KNOW MORE
           </Link>
         </div>
       </div>
