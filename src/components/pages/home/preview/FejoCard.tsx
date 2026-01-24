@@ -29,6 +29,7 @@ const FejoCard: React.FC = () => (
         REGISTER
       </Link>
     </div>
+  </div>
 );
 
 export default FejoCard;
