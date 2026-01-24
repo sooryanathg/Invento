@@ -50,7 +50,7 @@ const SapthaEvent = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=600%", // Increased distance for Posters + Curtain animation
+          end: "+=800%", // Increased distance for Posters + Curtain animation + Details
           scrub: 1, 
           pin: true,
         },
@@ -143,95 +143,90 @@ const SapthaEvent = () => {
          );
       }
 
-      // 8. Curtain Effect: Details Section slides up
-      if (detailsRef.current) {
-          tl.to(detailsRef.current, {
-              y: "0%", // Slide up to cover screen
-              duration: 1.5,
-              ease: "power2.inOut"
-          }, ">0.5"); 
-      }
+      // REMOVED explicit curtain animation. 
+      // The natural scroll + z-index layering will handle the "Curtain" effect.
 
     },
     { scope: containerRef }
   );
 
   return (
-    <div ref={containerRef} className="h-screen w-full relative bg-black overflow-hidden">
-      
-      {/* Background Image */}
-      <Image
-        ref={bgImageRef}
-        src="/about-events/saptha/saptha-bg.webp"
-        alt="Saptha Background"
-        fill
-        className="object-cover -z-10"
-        priority
-      />
-
-      {/* Container for Lady Image and Title */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center h-full w-full">
-        
-        {/* LADY IMAGE COMPONENT */}
-        <div ref={ladyRef} className="relative w-[400px] h-[480px] md:w-[600px] md:h-[700px] z-10 -mt-30"> 
-             <Image
-                src="/about-events/saptha/sapthalady.webp"
-                alt="Saptha Lady"
+    <div className="relative w-full bg-black">
+        {/* Intro Section - Pinned/Fixed */}
+        <div ref={containerRef} className="h-screen w-full sticky top-0 bg-black overflow-hidden z-0">
+            
+            {/* Background Image */}
+            <Image
+                ref={bgImageRef}
+                src="/about-events/saptha/saptha-bg.webp"
+                alt="Saptha Background"
                 fill
-                className="object-contain"
+                className="object-cover -z-10"
                 priority
             />
+
+            {/* Container for Lady Image and Title */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center h-full w-full">
+                
+                {/* LADY IMAGE COMPONENT */}
+                <div ref={ladyRef} className="relative w-[400px] h-[480px] md:w-[600px] md:h-[700px] z-10 -mt-30"> 
+                    <Image
+                        src="/about-events/saptha/sapthalady.webp"
+                        alt="Saptha Lady"
+                        fill
+                        className="object-contain"
+                        priority
+                    />
+                </div>
+
+                <h1 ref={titleRef} className="font-akira text-white text-6xl md:text-8xl lg:text-[11rem] tracking-wider leading-none -mt-20 z-20">
+                SAPTHA
+                </h1>
+            </div>
+
+            {/* Second Section: Description Text */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <p 
+                    ref={descriptionRef}
+                    className="text-white font-urbanist text-center text-base md:text-xl lg:text-3xl w-full max-w-[95vw] px-2 md:px-0 mt-[25vh] z-30 opacity-0 leading-relaxed"
+                >
+                    SAPTHA Art Show brings together seven powerful expressions of creativity, blending art, culture, and
+                    <br className="block my-2" />
+                    imagination into one immersive experience.
+                    <br className="block my-2" />
+                    Explore stories, emotions, and ideas crafted through colors, forms, and unique perspectives
+                </p>
+            </div>
+            
+            {/* Third Section: Posters */}
+            <div className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none">
+                {/* Natya Poster */}
+                <div ref={natyaRef} className="absolute left-0 md:left-[5%] top-[10%] w-[90vw] h-[70vh] md:w-[90vw] md:h-[90vh]">
+                    <Image 
+                        src="/about-events/saptha/natya-poster.webp"
+                        alt="Natya Poster"
+                        fill
+                        className="object-contain" // Keep poster ratio
+                    />
+                </div>
+
+                {/* Taksati Poster */}
+                <div ref={taksatiRef} className="absolute right-0 md:right-[4%] top-[12%] w-[90vw] h-[70vh] md:w-[90vw] md:h-[90vh]">
+                    <Image 
+                        src="/about-events/saptha/taksati-poster.webp"
+                        alt="Taksati Poster"
+                        fill
+                        className="object-contain"
+                    />
+                </div>
+            </div>
+
         </div>
 
-        <h1 ref={titleRef} className="font-akira text-white text-6xl md:text-8xl lg:text-[11rem] tracking-wider leading-none -mt-20 z-20">
-          SAPTHA
-        </h1>
-      </div>
-
-      {/* Second Section: Description Text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <p 
-            ref={descriptionRef}
-            className="text-white font-urbanist text-center text-base md:text-xl lg:text-3xl w-full max-w-[95vw] px-2 md:px-0 mt-[25vh] z-30 opacity-0 leading-relaxed"
-          >
-            SAPTHA Art Show brings together seven powerful expressions of creativity, blending art, culture, and
-            <br className="block my-2" />
-            imagination into one immersive experience.
-            <br className="block my-2" />
-            Explore stories, emotions, and ideas crafted through colors, forms, and unique perspectives
-          </p>
-      </div>
-      
-      {/* Third Section: Posters */}
-      <div className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none">
-           {/* Natya Poster */}
-           <div ref={natyaRef} className="absolute left-0 md:left-[5%] top-[10%] w-[90vw] h-[70vh] md:w-[90vw] md:h-[90vh]">
-               <Image 
-                 src="/about-events/saptha/natya-poster.webp"
-                 alt="Natya Poster"
-                 fill
-                 className="object-contain" // Keep poster ratio
-               />
-           </div>
-
-           {/* Taksati Poster */}
-           <div ref={taksatiRef} className="absolute right-0 md:right-[4%] top-[12%] w-[90vw] h-[70vh] md:w-[90vw] md:h-[90vh]">
-               <Image 
-                 src="/about-events/saptha/taksati-poster.webp"
-                 alt="Taksati Poster"
-                 fill
-                 className="object-contain"
-               />
-           </div>
-      </div>
-
-      {/* Fourth Section: Event Details (Curtain) */}
-      <div 
-        ref={detailsRef} 
-        className="absolute inset-0 z-50 translate-y-[100%]" // Start off-screen down
-      >
-        <SapthaEventDetails />
-      </div>
+        {/* Details Section - Scrolls over the fixed intro (Curtain Effect) */}
+        <div className="relative z-10 bg-black min-h-screen">
+            <SapthaEventDetails />
+        </div>
 
     </div>
   );
