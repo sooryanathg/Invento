@@ -106,7 +106,7 @@ export default function History() {
           duration: 1,
           stagger: 0.05,
         },
-        "+=0.5",
+        "+=5",
       );
 
       tl.to(
@@ -196,7 +196,7 @@ export default function History() {
         );
       }
 
-      tl.to({}, { duration: 1 });
+      tl.to({}, { duration: 10 });
 
       // SCROLL UP to reveal Page 2
       // Check if ANY content wrapper exists to drive the scroll logic
@@ -317,7 +317,7 @@ export default function History() {
         );
       }
 
-      tl.to({}, { duration: 1 });
+      tl.to({}, { duration: 10 });
     });
 
     return () => ctx.revert();

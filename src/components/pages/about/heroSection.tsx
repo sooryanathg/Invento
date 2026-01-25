@@ -175,7 +175,7 @@ export default function HeroSection() {
 
         <div
           ref={cardsRef}
-          className="absolute top-[40%] xl:top-[50%] left-[2vw] md:left-[5vw] w-full max-w-6xl z-10"
+          className="absolute top-[40%] xl:top-[50%] left-[2vw] md:left-[5vw] w-[90vw] md:w-full max-w-6xl z-10"
         >
           <HeroSectionCard />
         </div>
