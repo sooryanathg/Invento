@@ -529,22 +529,22 @@ export const eventsData: Event[] = [
     }
   },
   {
-    id: "60df0ff4-acda-4443-9f86-1b79c628d827",
-    name: "natya",
-    title: "NATYA",
-    description: "NATYA Natya is the Inter College Dance Competition, designed to showcase high-energy performances, innovative choreography, and the sheer power of movement on a grand stage. GUIDELINES 1. Open to all college students. 2. Minimum of 7 members per team and should not consist of any&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;alumni. 3. Any style or fusion is allowed. Innovation is key. 4. Performance duration is maximum of 10 minutes including the&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; stage setup.&nbsp; &nbsp;&nbsp; 5. Should submit the music mix 2 hours prior to the event 6. Minimal props are permitted. Use of any inflammable items is&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; strictly prohibited. 7.Judging criteria will be innovation, style, creativity, costume,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;synchronization, and performance. 8. Judges decision would be final. Respect the judges and fellow&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; participants. DATE : JANUARY 30, 2026 TIME : 08:30PM",
-    category: "NATYA",
-    time: "20:30",
-    venue: "Main Stage, GEC Sreekrishnapuram",
-    poster: "https://hoomans-blob-prod.s3.ap-south-1.amazonaws.com/makemypass/event/60df0ff4-acda-4443-9f86-1b79c628d827/96-logo.png",
-    day: 2,
-    prizePool: "50 K",
-    regFee: "200",
-    contact: "8714569347, 9899979715",
-    links: {
-      registration: "https://app.makemypass.com/event/natya"
-    }
-  },
+  id: "60df0ff4-acda-4443-9f86-1b79c628d827",
+  name: "natya",
+  title: "NATYA",
+  description: "NATYA is an inter-college group dance competition celebrating energy, creativity, and powerful choreography. Open to all college students with a minimum of 7 members per team (no alumni). Any dance style or fusion is allowed. Performance time is limited to 10 minutes including setup. Music must be submitted 2 hours prior. Minimal props are allowed; inflammable items are strictly prohibited. Judging is based on innovation, style, creativity, costume, synchronization, and overall performance. Judges’ decision is final.",
+  category: "NATYA",
+  time: "20:30",
+  venue: "Main Stage, GEC Sreekrishnapuram",
+  poster: "https://hoomans-blob-prod.s3.ap-south-1.amazonaws.com/makemypass/event/60df0ff4-acda-4443-9f86-1b79c628d827/96-logo.png",
+  day: 2,
+  prizePool: "50 K",
+  regFee: "200",
+  contact: "8714569347, 9899979715",
+  links: {
+    registration: "https://app.makemypass.com/event/natya"
+  }
+},
   {
     id: "4fc1d9ed-bf08-4b86-a5ee-097287ed0b00",
     name: "cfd",
@@ -709,7 +709,7 @@ export const eventsData: Event[] = [
     poster: "https://i.postimg.cc/MvzCsVQC/MARGAM-KALI.png",
     day: 3,
     prizePool: "15K",
-    regFee: "NILL",
+    regFee: "1500",
     contact: "8139849451, 9048272850",
     links: {
       registration: "https://app.makemypass.com/event/margamkali-1"
