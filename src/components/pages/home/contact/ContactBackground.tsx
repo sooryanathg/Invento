@@ -60,7 +60,7 @@ export default function ContactBackground({ sectionRef, showElements, bgRef, log
           zIndex: 0,
           pointerEvents: "none",
           backgroundImage: "url('/contact/bg.png')",
-          backgroundSize: isMobile ? "auto" : "auto",
+          backgroundSize: isMobile ? "cover" : "auto",
           backgroundPosition: isMobile ? "20% center" : "left center",
           backgroundRepeat: "no-repeat",
         }}
