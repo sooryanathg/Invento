@@ -9,7 +9,7 @@ export const eventsData: Event[] = [
     category: "TECH",
     time: "09:00",
     venue: "CCF Lab, GEC Palakkad",
-    poster: "https://hoomans-blob-prod.s3.ap-south-1.amazonaws.com/makemypass/event/8eadf01e-77fc-4391-9e77-44990c7a12a0/74-logo.png",
+    poster: "https://firebasestorage.googleapis.com/v0/b/enigma-d05b9.firebasestorage.app/o/invento%2Fctf%20poster.jpg.jpeg?alt=media&token=2a1e78ca-eef5-42fc-8bc7-3c3e426d2418",
     day: 1,
     prizePool: "25K",
     regFee: "200",
