@@ -42,6 +42,7 @@ const GeneralEvent = () => {
                     fill
                     className="object-cover"
                     style={{ objectPosition: "center 200%" }}
+                    sizes="100vw"
                     priority
                 />
             </div>
@@ -57,7 +58,7 @@ const GeneralEvent = () => {
             <div className="absolute inset-0 flex flex-col items-center justify-center h-full w-full">
                 
                 {/* SAM IMAGE COMPONENT */}
-                <div ref={samRef} className="relative w-[300px] h-[360px] md:w-[600px] md:h-[700px] z-10 -mt-20 md:-mt-30"> 
+                <div ref={samRef} className="relative w-[300px] h-[360px] md:w-[500px] md:h-[600px] lg:w-[600px] lg:h-[700px] xl:w-[650px] xl:h-[750px] z-10 -mt-20 md:-mt-30"> 
                     <Image
                         src="/about-events/general/general-sam.webp"
                         alt="General Sam"
@@ -67,7 +68,7 @@ const GeneralEvent = () => {
                     />
                 </div>
 
-                <h1 ref={titleRef} className="font-akira text-black text-5xl md:text-7xl lg:text-9xl tracking-wider leading-none mt-0 md:mt-0 z-20 text-center">
+                <h1 ref={titleRef} className="font-akira text-black text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl tracking-wider leading-none mt-0 md:mt-0 z-20 text-center">
                 GENERAL
                 </h1>
             </div>
@@ -76,7 +77,7 @@ const GeneralEvent = () => {
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <p 
                     ref={descriptionRef}
-                    className="text-black font-urbanist text-left md:text-center text-sm md:text-xl lg:text-3xl w-full max-w-[90vw] px-4 md:px-0 mt-[35vh] md:mt-[25vh] z-30 opacity-0 leading-relaxed"
+                    className="text-black font-urbanist text-left md:text-center text-sm md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl w-full max-w-[90vw] px-4 md:px-0 mt-[35vh] md:mt-[25vh] z-30 opacity-0 leading-relaxed"
                 >
                     GENERAL events bring together diverse competitions and activities that test your
                     <br className="block my-2" />
