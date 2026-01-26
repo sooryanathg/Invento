@@ -7,8 +7,51 @@ import { LoadingProvider } from "../components/providers/LoadingProvider";
 import AutoScroll from "../components/ui/autoScroll";
 
 export const metadata: Metadata = {
-  title: "Invento",
-  description: "next app",
+  title: "INVENTO | GEC Palakkad",
+  description:
+    "INVENTO is the national-level annual techno-management festival of Government Engineering College Palakkad, celebrating innovation, technology, and leadership.",
+
+  keywords: [
+    "INVENTO",
+    "GEC Palakkad",
+    "Techno-management fest",
+    "Engineering fest",
+    "Technical festival Kerala",
+    "College fest India"
+  ],
+
+  authors: [{ name: "Government Engineering College Palakkad" }],
+
+  openGraph: {
+    title: "INVENTO | GEC Palakkad",
+    description:
+      "The national-level annual techno-management festival of Government Engineering College Palakkad.",
+    url: "https://www.invento26.org/", 
+    siteName: "INVENTO",
+    images: [
+      {
+        url: "/logo.png", 
+        width: 1200,
+        height: 630,
+        alt: "INVENTO GEC Palakkad",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "INVENTO | GEC Palakkad",
+    description:
+      "National-level annual techno-management festival of Government Engineering College Palakkad.",
+    images: ["/logo.png"],
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
