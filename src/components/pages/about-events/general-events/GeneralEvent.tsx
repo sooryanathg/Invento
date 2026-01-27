@@ -95,7 +95,7 @@ const GeneralEvent = () => {
             {/* Third Section: Images */}
             <div className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none flex-col md:block">
                 {/* Mudracing Image */}
-                <div ref={MudRef} className="absolute left-0 md:left-[5%] top-[50%] md:top-[10%] w-[100vw] h-[50vh] md:w-[90vw] md:h-[90vh]">
+                <div ref={MudRef} className="absolute left-0 md:left-[5%] top-[55%] md:top-[10%] w-[85vw] h-[42vh] md:w-[75vw] md:h-[75vh]">
                     <Image 
                         src="/about-events/general/mudracing web.webp"
                         alt="Mudracing"
@@ -118,7 +118,7 @@ const GeneralEvent = () => {
         </div>
 
         {/* Details Section - Scrolls over the fixed intro (Curtain Effect) */}
-        <div className="relative z-10 min-h-screen" style={{ backgroundColor: "#E3CFAF" }}>
+        <div className="relative z-10 md:min-h-screen" style={{ backgroundColor: "#E3CFAF" }}>
             <GeneralEventDetails />
         </div>
 
