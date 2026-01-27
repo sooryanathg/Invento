@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useEvents } from "@/src/context/EventContext";
 import { Event, EventCategory } from "@/src/types/event";
 import EventModal from "./EventModal";
+import { Search } from "lucide-react";
+
 
 const categories: (EventCategory | "ALL")[] = [
   "ALL",
@@ -199,6 +201,27 @@ export default function EventTable({
             </div>
           </div>
         ))}
+
+        {dayFilteredEvents.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 px-3 text-center">
+            <Search className="h-16 w-16 text-white/30 mb-4" strokeWidth={1.5} />
+
+            
+            <h3 className="text-xl uppercase tracking-wide font-akira mb-2 text-white/90">
+              No Events Found
+            </h3>
+            
+            <p className="text-sm text-gray-400 font-sans max-w-md mb-4">
+              {search
+                ? `No events match "${search}" on Day ${activeDay}.`
+                : `No ${active === "ALL" ? "" : active} events on Day ${activeDay}.`}
+            </p>
+            
+            <p className="text-xs text-gray-500 font-sans max-w-md">
+              Try swiping to the next day or adjusting your filters — your event might be scheduled on a different day!
+            </p>
+          </div>
+        )}
       </div>
 
       {/* ================= MODAL ================= */}
